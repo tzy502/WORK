@@ -58,20 +58,54 @@ public class EventManage implements IEvent {
 			
 	}
 	@Override
-	public Event SerchEvent(int ID) {
-		// TODO Auto-generated method stub
-		return null;
+	public Event SerchEvent(Event event) {
+		List<Event> TotalEvent=new ArrayList<Event>();
+		if(TotalEvent.size()==0)
+			return null;
+		else for(int i=0;i<=TotalEvent.size();i++)
+		{
+			Event event1=new Event();
+			event1=TotalEvent.get(i);
+			if(event1.getID()==event.getID()){
+				return event1;
+			}
+		}
+	//		throw new BusinessException("登陆账号已经存在");
+		return event;
 	}
 	@Override
-	public void DelEvent(int ID) {
+	public void DelEvent(Event event) {
 		// TODO Auto-generated method stub
+		EventManage a=new EventManage();
+		if(a.SerchEvent(event)==null){
+			//抛出错误
+		}
+		else{
+			Event newevent=new Event();
+			newevent=a.SerchEvent(event);
+			newevent.setDel(true);
+			a.ModifyEvent(event,newevent);
+		}	
 
 	}
 
 	@Override
-	public void ModifyEvent(int ID) {
+	public void ModifyEvent(Event event,Event newevent) {
 		// TODO Auto-generated method stub
-
+		List<Event> TotalEvent=new ArrayList<Event>();
+		if(TotalEvent.size()==0)
+		{
+			
+		}
+			//抛出一场
+		else for(int i=0;i<=TotalEvent.size();i++)
+		{
+			Event event1=new Event();
+			event1=TotalEvent.get(i);
+			if(event1.getID()==event.getID()){
+				//TotalEvent.set(i, element)
+			}	
+		}
 	}
 
 
