@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import cn.list.util.*;
-
 import cn.list.model.Event;
 import cn.list.workinterface.IEvent;
 
@@ -51,15 +50,35 @@ public class EventManage implements IEvent {
 	@Override
 	public void AddEvent(Event event) throws DbException {
 		// TODO Auto-generated method stub
-		int i;
+
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],[Character],[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],"
+					+ "[Character],[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
-			
-			
+			pst.setString(1,event.getName());
+			pst.setDate(2, event.getBeginTime());
+			pst.setDate(3,event.getEndTime());
+			if(event.isHint()==true){
+				pst.setInt(4, 1);
+			}
+			else{
+				pst.setInt(4, 0);
+			}
+			if(event.isComplete()==true){
+				pst.setInt(5, 1);
+			}
+			else{
+				pst.setInt(5, 0);
+			}
+			pst.setString(6,event.getPlace());
+			pst.setString(7,event.getCharacter());
+			pst.setString(8,event.getDescribe());
+			pst.setInt(9,event.getLevel());
+			pst.setInt(10,0);
+			pst.setInt(11,0);
 			rs.close();
 			pst.execute();
 			pst.close();
@@ -76,60 +95,65 @@ public class EventManage implements IEvent {
 					e.printStackTrace();
 				}
 		}
-	/*
-	 * INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],[Character],[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?,?)
-	 * */	
-		
-		
-		
-		
-		//·ÏÆú
-//		List<Event> TotalEvent=new ArrayList<Event>();
-//		if(TotalEvent.size()==0){
-//			TotalEvent.add(event);
-//		}
-//		else
-//			for(i=1;i<=TotalEvent.size();i++)
-//			{
-//				Event a=new Event();
-//				Event b=new Event();
-//				a=TotalEvent.get(i);
-//				b=TotalEvent.get(i+1);
-//				if((a.getBeginTime()<event.getBeginTime()) and (b.getBeginTime()>event.getBeginTime()))
-//				{
-//					TotalEvent.add(i+1, event);
-//				}
-//			}
-//			
 	}
 	@Override
-	public Event SerchEvent(Event event) {
+	public Event SerchEvent(int ID) throws BusinessException, DbException {
 		List<Event> TotalEvent=new ArrayList<Event>();
-		if(TotalEvent.size()==0)
-			return null;
-		else for(int i=0;i<=TotalEvent.size();i++)
-		{
-			Event event1=new Event();
-			event1=TotalEvent.get(i);
-			if(event1.getID()==event.getID()){
-				return event1;
+		Connection conn=null;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],[Character],[describe],[level],[del],[change]"
+						+"FROM [work].[dbo].[Event]"+
+						"where id=?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,ID);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) throw new BusinessException("²»´æÔÚ");
+			while(rs.next()){				
+				Event event=new Event();
+				/*
+				 * Ìî³äÈ¥
+				 * */
+				
+				return event;
 			}
+			rs.close();
+			pst.execute();
+			pst.close();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
 		}
-	//		throw new BusinessException("µÇÂ½ÕËºÅÒÑ¾­´æÔÚ");
-		return event;
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return null;
 	}
 	@Override
-	public void DelEvent(Event event) {
+	public void DelEvent(Event event) throws BusinessException, DbException, SQLException {
 		// TODO Auto-generated method stub
 		EventManage a=new EventManage();
-		if(a.SerchEvent(event)==null){
+		if(a.SerchEvent(event.getID())==null){
 			//Å×³ö´íÎó
 		}
 		else{
-			Event newevent=new Event();
-			newevent=a.SerchEvent(event);
-			newevent.setDel(true);
-			a.ModifyEvent(event,newevent);
+			Connection conn=null;
+				conn=DBUtil.getConnection();
+				String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=1";
+				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+				pst.setInt(1,event.getID());
+				java.sql.ResultSet rs=pst.executeQuery();
+				rs.close();
+				pst.execute();
+				pst.close();			
 		}	
 
 	}
