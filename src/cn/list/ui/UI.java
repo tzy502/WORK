@@ -103,6 +103,7 @@ public class UI {
 			contentPene4.add(b2);
 			contentPene4.setBackground(Color.white);
 			b1.setToolTipText("确定");
+			b1.setFont(new Font("宋体",Font.BOLD, 16));
 			b2.setToolTipText("取消");
 		//	b1.setBorder(BorderFactory.createLineBorder(Color.red));
 			//按钮over
