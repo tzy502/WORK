@@ -141,20 +141,17 @@ public class EventManage implements IEvent {
 	public void DelEvent(Event event) throws BusinessException, DbException, SQLException {
 		// TODO Auto-generated method stub
 		EventManage a=new EventManage();
-		if(a.SerchEvent(event.getID())==null){
-			//抛出错误
-		}
-		else{
+		if(a.SerchEvent(event.getID())!=null){
 			Connection conn=null;
-				conn=DBUtil.getConnection();
-				String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=1";
-				java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-				pst.setInt(1,event.getID());
-				java.sql.ResultSet rs=pst.executeQuery();
-				rs.close();
-				pst.execute();
-				pst.close();			
-		}	
+			conn=DBUtil.getConnection();
+			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=1";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,event.getID());
+			java.sql.ResultSet rs=pst.executeQuery();
+			rs.close();
+			pst.execute();
+			pst.close();	
+		}
 
 	}
 
@@ -162,19 +159,7 @@ public class EventManage implements IEvent {
 	public void ModifyEvent(Event event,Event newevent) {
 		// TODO Auto-generated method stub
 		List<Event> TotalEvent=new ArrayList<Event>();
-		if(TotalEvent.size()==0)
-		{
-			
-		}
-			//抛出一场
-		else for(int i=0;i<=TotalEvent.size();i++)
-		{
-			Event event1=new Event();
-			event1=TotalEvent.get(i);
-			if(event1.getID()==event.getID()){
-				//TotalEvent.set(i, element)
-			}	
-		}
+		
 	}
 
 
