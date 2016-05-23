@@ -81,17 +81,6 @@ public class UiMain {
 		gbc_b1.gridx = 4;
 		gbc_b1.gridy = 2;
 		panel.add(b1, gbc_b1);
-		b1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				UI a=new UI();
-				a.UI();
-				
-			}
-		});
-		
-		
-		
-		
 		JButton btnNewButton_1 = new JButton("\u4FEE\u6539");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -254,7 +243,14 @@ public class UiMain {
 			}
 		});
 		frame.setVisible(true);
-		
+		//以下是按键触发事件
+		b1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				NewEventUi a=new NewEventUi();
+				a.newEventui();
+				
+			}
+		});
 		
 	}
 

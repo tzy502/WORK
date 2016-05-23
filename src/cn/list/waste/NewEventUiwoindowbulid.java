@@ -1,4 +1,4 @@
-package cn.list.ui;
+package cn.list.waste;
 
 import java.awt.EventQueue;
 
@@ -28,7 +28,7 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
-public class NewEventUi {
+public class NewEventUiwoindowbulid {
 
 	private JFrame frame;
 	private JPanel north;
@@ -42,7 +42,34 @@ public class NewEventUi {
 	private JTextField begintimetext;
 	private JTextField endtimetext;
 	private JLabel level;
-	public  void newEventui() {
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NewEventUiwoindowbulid window = new NewEventUiwoindowbulid();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public NewEventUiwoindowbulid() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,7 +191,7 @@ public class NewEventUi {
 		describetextArea.setLineWrap(true);
 		describetextArea.setWrapStyleWord(true); 
 		scrollPane.setViewportView(describetextArea);
-		frame.setVisible(true);
+		
 		
 		
 		
