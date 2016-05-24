@@ -81,7 +81,7 @@ public class UiMain {
 		gbc_b1.gridx = 4;
 		gbc_b1.gridy = 2;
 		panel.add(b1, gbc_b1);
-		JButton btnNewButton_1 = new JButton("\u4FEE\u6539");
+		JButton btnNewButton_1 = new JButton("ÐÞ¸Ä");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -92,7 +92,7 @@ public class UiMain {
 		gbc_btnNewButton_1.gridy = 3;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("\u5220\u9664");
+		JButton btnNewButton_2 = new JButton("É¾³ý");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -103,7 +103,7 @@ public class UiMain {
 		gbc_btnNewButton_2.gridy = 4;
 		panel.add(btnNewButton_2, gbc_btnNewButton_2);
 		
-		JButton btnNewButton_3 = new JButton("\u6E05\u7A7A");
+		JButton btnNewButton_3 = new JButton("Çå¿Õ");
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_3.gridx = 4;
@@ -251,7 +251,31 @@ public class UiMain {
 				
 			}
 		});
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				ModifyEventUi a=new ModifyEventUi();
+				a.ModifyEventUi();
+			}	
+		});
+		btnNewButton_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				DelEventUi a=new DelEventUi();
+				a.DelEventUi();
+			}	
+		});
+		btnNewButton_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				ClearEventUi a=new ClearEventUi();
+				a.ClearEventUi();
+			}	
+		});
 		
-	}
 
+	}
 }

@@ -1,6 +1,6 @@
 package cn.list.model;
 
-import java.sql.Date;
+import java.util.Date;
 public class Event {
 	private int Totalnum;//数据总数
 	private int ID;//事件编号

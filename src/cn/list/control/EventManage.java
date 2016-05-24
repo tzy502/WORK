@@ -59,8 +59,10 @@ public class EventManage implements IEvent {
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 			pst.setString(1,event.getName());
-			pst.setDate(2, event.getBeginTime());
-			pst.setDate(3,event.getEndTime());
+			java.sql.Date sqldate=new java.sql.Date(event.getBeginTime().getTime());
+			pst.setDate(2, sqldate);
+			java.sql.Date sqldate1=new java.sql.Date(event.getBeginTime().getTime());
+			pst.setDate(3,sqldate1);
 			if(event.isHint()==true){
 				pst.setInt(4, 1);
 			}
@@ -144,7 +146,7 @@ public class EventManage implements IEvent {
 		if(a.SerchEvent(event.getID())!=null){
 			Connection conn=null;
 			conn=DBUtil.getConnection();
-			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=1";
+			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1,event.getID());
 			java.sql.ResultSet rs=pst.executeQuery();
@@ -156,9 +158,20 @@ public class EventManage implements IEvent {
 	}
 
 	@Override
-	public void ModifyEvent(Event event,Event newevent) {
+	public void ModifyEvent(Event event,Event newevent)throws BusinessException, DbException, SQLException  {
 		// TODO Auto-generated method stub
-		List<Event> TotalEvent=new ArrayList<Event>();
+		EventManage a=new EventManage();
+		if(a.SerchEvent(event.getID())!=null){
+			Connection conn=null;
+			conn=DBUtil.getConnection();
+			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,event.getID());
+			java.sql.ResultSet rs=pst.executeQuery();
+			rs.close();
+			pst.execute();
+			pst.close();	
+		}
 		
 	}
 
@@ -169,3 +182,8 @@ public class EventManage implements IEvent {
 	//	a.CreateEvent(1);
 	}
 }
+/*
+ * java.sql.Date date=new java.sql.Date();
+java.util.Date d=new java.util.Date (date.getTime());
+ * 
+ * */

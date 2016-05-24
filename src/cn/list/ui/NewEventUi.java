@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -45,7 +48,7 @@ public class NewEventUi {
 	public  void newEventui() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		north = new JPanel();
@@ -62,13 +65,25 @@ public class NewEventUi {
 		
 		btnNewButton = new JButton("新建");
 		south.add(btnNewButton);
-		
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});
 		lblNewLabel_1 = new JLabel("     ");
 		south.add(lblNewLabel_1);
 		
 		btnNewButton_1 = new JButton("取消");
 		south.add(btnNewButton_1);
-		
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});		
 		JPanel Center = new JPanel();
 		frame.getContentPane().add(Center, BorderLayout.CENTER);
 		Center.setLayout(null);

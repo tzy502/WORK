@@ -72,7 +72,7 @@ public class NewEventUiwoindowbulid {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		north = new JPanel();
