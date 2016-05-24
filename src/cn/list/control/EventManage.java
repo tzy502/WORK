@@ -16,7 +16,7 @@ import cn.list.workinterface.IEvent;
 public class EventManage implements IEvent {
 
 	@Override
-	public void CreateEvent(String Name,Date BeginTime,Date EndTime,boolean Hint,String Place,String Character,String describe,int level) throws BusinessException, DbException {
+	public void CreateEvent(String Name,Date BeginTime,Date EndTime,boolean Hint,String describe,int level) throws BusinessException, DbException {
 		// 创建新事件
 
 		if(Name==null){
@@ -34,8 +34,6 @@ public class EventManage implements IEvent {
 		event.setEndTime(EndTime);
 		event.setHint(Hint);
 		event.setComplete(false);
-		event.setPlace(Place);
-		event.setCharacter(Character);
 		event.setDescribe(describe);
 		event.setLevel(level);
 		event.setDel(false);
@@ -54,8 +52,8 @@ public class EventManage implements IEvent {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],"
-					+ "[Character],[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],"
+					+ "[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?)";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			//java.sql.ResultSet rs=pst.executeQuery();
 			pst.setString(1,event.getName());
@@ -76,11 +74,9 @@ public class EventManage implements IEvent {
 				pst.setInt(5, 0);
 			}
 			pst.setString(6,event.getPlace());
-			pst.setString(7,event.getCharacter());
-			pst.setString(8,event.getDescribe());
-			pst.setInt(9,event.getLevel());
-			pst.setInt(10,0);
-			pst.setInt(11,0);
+			pst.setInt(7,event.getLevel());
+			pst.setInt(8,0);
+			pst.setInt(9,0);
 		//	rs.close();
 			pst.execute();
 			pst.close();
@@ -117,7 +113,8 @@ public class EventManage implements IEvent {
 				/*
 				 * 填充去
 				 * */
-				
+				event.setName(rs.getString(1));
+				event.setBeginTime(rs.getDate(2));
 				return event;
 			}
 			rs.close();

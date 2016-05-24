@@ -18,7 +18,7 @@ public class EventManageText {
 		Date begin=new Date();
 		Date end=new Date();
 		EventManage test=new EventManage();
-		test.CreateEvent("asd", begin, end, true, "asdfasdf", "dsafadsf", "asdfasdf", 2);
+		test.CreateEvent("asd", begin, end, true, "asdfasdf", 2);
 		fail("Not yet implemented");
 	}
 	@Test
@@ -31,7 +31,7 @@ public class EventManageText {
 
 		
 		try{
-			test1.CreateEvent(null, begin, end, true, "asdfasdf", "dsafadsf", "asdfasdf", 2);
+			test1.CreateEvent(null, begin, end, true, "asdfasdf", 2);
 			
 		}catch(BaseException e){
 			e.printStackTrace();
@@ -49,7 +49,7 @@ public class EventManageText {
 		EventManage test2=new EventManage();
 
 		try{
-			test2.CreateEvent("AD", null, end, true, "asdfasdf", "dsafadsf", "asdfasdf", 2);
+			test2.CreateEvent("AD", null, end, true, "asdfasdf", 2);
 		
 		}catch(BaseException e){
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class EventManageText {
 		Date end=new Date();
 		EventManage test3=new EventManage();
 		try{
-			test3.CreateEvent("asdas", begin, null, true, "asdfasdf", "dsafadsf", "asdfasdf", 2);
+			test3.CreateEvent("asdas", begin, null, true, "asdfasdf", 2);
 		}catch(BaseException e){
 			e.printStackTrace();
 		}
