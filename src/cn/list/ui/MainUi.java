@@ -27,10 +27,11 @@ import javax.swing.JToolBar;
 import javax.swing.RootPaneContainer;
 
 import cn.list.ui.*;
+import cn.list.waste.ToDolistamain;
 
 import javax.swing.JTextPane;
 import javax.swing.JTable;
-public class UiMain {
+public class MainUi {
 
 	private JFrame frame;
 
@@ -41,7 +42,7 @@ public class UiMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UiMain window = new UiMain();
+					MainUi window = new MainUi();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +54,7 @@ public class UiMain {
 	/**
 	 * Create the application.
 	 */
-	public UiMain() {
+	public MainUi() {
 		initialize();
 	}
 

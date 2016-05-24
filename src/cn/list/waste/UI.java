@@ -1,4 +1,4 @@
-package cn.list.ui;
+package cn.list.waste;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

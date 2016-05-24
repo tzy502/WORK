@@ -110,7 +110,8 @@ public class EventManage implements IEvent {
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1,ID);
 			java.sql.ResultSet rs=pst.executeQuery();
-			if(!rs.next()) throw new BusinessException("不存在");
+			if(!rs.next()) 
+				throw new BusinessException("不存在");
 			while(rs.next()){				
 				Event event=new Event();
 				/*
@@ -177,8 +178,3 @@ public class EventManage implements IEvent {
 
 
 }
-/*
- * java.sql.Date date=new java.sql.Date();
-java.util.Date d=new java.util.Date (date.getTime());
- * 
- * */

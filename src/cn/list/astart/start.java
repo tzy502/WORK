@@ -1,5 +1,8 @@
 package cn.list.astart;
-import cn.list.ui.UiMain;
+import cn.list.ui.MainUi;
 public class start {
-	UiMain start = new UiMain(); 
+	public static void main(String[] args) {
+		MainUi start = new MainUi(); 
+}
+	
 }

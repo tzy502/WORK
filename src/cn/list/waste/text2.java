@@ -1,12 +1,10 @@
-package cn.list.ui;
-import cn.list.ui.UiMain;
-import cn.list.ui.ToDolistamain;
-import cn.list.ui.UI;
+package cn.list.waste;
+import cn.list.ui.MainUi;
 public class text2 {
 	public static void main(String[] args){
 		UI a=new UI();
 		ToDolistamain b=new ToDolistamain();
-		UiMain window = new UiMain();
+		MainUi window = new MainUi();
 
 //		a.UI();
 //		b.todilist();
