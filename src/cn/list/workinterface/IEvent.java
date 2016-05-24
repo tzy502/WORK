@@ -1,6 +1,6 @@
 package cn.list.workinterface;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 
 import cn.list.model.Event;

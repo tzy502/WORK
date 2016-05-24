@@ -3,7 +3,7 @@ package cn.list.util;
 import java.sql.Connection;
 
 public class DBUtil {
-	private static final String jdbcUrl="jdbc:jtds:sqlserver://127.0.0.1:1433/SQLwork";
+	private static final String jdbcUrl="jdbc:jtds:sqlserver://127.0.0.1:1433/work";
 	private static final String dbUser="root";
 	private static final String dbPwd="zucc";
 	static{

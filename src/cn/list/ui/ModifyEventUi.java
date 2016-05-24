@@ -1,34 +1,23 @@
-package cn.list.waste;
+package cn.list.ui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import java.awt.Font;
-import javax.swing.JTextPane;
-import javax.swing.JList;
-import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-public class NewEventUiwoindowbulid {
+public class ModifyEventUi {
 
 	private JFrame frame;
 	private JPanel north;
@@ -42,34 +31,7 @@ public class NewEventUiwoindowbulid {
 	private JTextField begintimetext;
 	private JTextField endtimetext;
 	private JLabel level;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewEventUiwoindowbulid window = new NewEventUiwoindowbulid();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public NewEventUiwoindowbulid() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	public  void ModifyEventUi() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -78,7 +40,7 @@ public class NewEventUiwoindowbulid {
 		north = new JPanel();
 		frame.getContentPane().add(north, BorderLayout.NORTH);
 		
-		label = new JLabel("\u65B0\u5EFA");
+		label = new JLabel("修改");
 		label.setFont(new Font("SimSun", Font.BOLD, 30));
 		north.add(label);
 		
@@ -87,16 +49,27 @@ public class NewEventUiwoindowbulid {
 		south.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		
-		btnNewButton = new JButton("新建");
+		btnNewButton = new JButton("修改");
 		south.add(btnNewButton);
-		
-		
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});		
 		lblNewLabel_1 = new JLabel("     ");
 		south.add(lblNewLabel_1);
 		
 		btnNewButton_1 = new JButton("取消");
 		south.add(btnNewButton_1);
-		
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});		
 		JPanel Center = new JPanel();
 		frame.getContentPane().add(Center, BorderLayout.CENTER);
 		Center.setLayout(null);
@@ -192,9 +165,8 @@ public class NewEventUiwoindowbulid {
 		describetextArea.setLineWrap(true);
 		describetextArea.setWrapStyleWord(true); 
 		scrollPane.setViewportView(describetextArea);
+		frame.setVisible(true);
 		
-		
-		
-		
-	}
+}
+
 }

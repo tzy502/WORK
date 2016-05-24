@@ -1,7 +1,7 @@
 package cn.list.control;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,7 +57,7 @@ public class EventManage implements IEvent {
 			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],"
 					+ "[Character],[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-			java.sql.ResultSet rs=pst.executeQuery();
+			//java.sql.ResultSet rs=pst.executeQuery();
 			pst.setString(1,event.getName());
 			java.sql.Date sqldate=new java.sql.Date(event.getBeginTime().getTime());
 			pst.setDate(2, sqldate);
@@ -81,7 +81,7 @@ public class EventManage implements IEvent {
 			pst.setInt(9,event.getLevel());
 			pst.setInt(10,0);
 			pst.setInt(11,0);
-			rs.close();
+		//	rs.close();
 			pst.execute();
 			pst.close();
 		} catch (SQLException e) {
@@ -147,7 +147,7 @@ public class EventManage implements IEvent {
 			Connection conn=null;
 			conn=DBUtil.getConnection();
 			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=?";
-			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
 			pst.setInt(1,event.getID());
 			java.sql.ResultSet rs=pst.executeQuery();
 			rs.close();
@@ -172,15 +172,10 @@ public class EventManage implements IEvent {
 			pst.execute();
 			pst.close();	
 		}
-		
 	}
 
 
-	public static void main(String[] args){
-		//≤‚ ‘
-		EventManage a=new EventManage();
-	//	a.CreateEvent(1);
-	}
+
 }
 /*
  * java.sql.Date date=new java.sql.Date();
