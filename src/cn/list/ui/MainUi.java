@@ -25,6 +25,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.RootPaneContainer;
+import javax.swing.table.DefaultTableModel;
 
 import cn.list.ui.*;
 import cn.list.waste.ToDolistamain;
@@ -34,6 +35,8 @@ import javax.swing.JTable;
 public class MainUi {
 
 	private JFrame frame;
+	private JTable table;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -187,10 +190,6 @@ public class MainUi {
 		frame.getContentPane().add(tp, BorderLayout.CENTER);
 		JPanel contentPene1 =new JPanel();			//文字中层ok		
 		contentPene1.setBackground(Color.WHITE);
-		JPanel contentPene2 =new JPanel();			//单选按钮中层ok
-		contentPene2.setBackground(Color.WHITE);
-		JPanel contentPene3 =new JPanel();			//多选中层ok
-		contentPene3.setBackground(Color.WHITE);
 		JPanel contentPene4 =new JPanel();			//按钮中层ok
 		//中层over
 		tp.addTab("p1", contentPene1);
@@ -201,19 +200,28 @@ public class MainUi {
 		contentPene1.add(txtpnAsdfasfd, BorderLayout.NORTH);
 		tp.setEnabledAt(0,true);
 		tp.setTitleAt(0," 按日显示  ");
-		tp.addTab("p2", contentPene2);
-		tp.setEnabledAt(1,true);
-		tp.setTitleAt(1,"按星期显示");
-		tp.addTab("p3", contentPene3);
-		tp.setEnabledAt(2,true);
-		tp.setTitleAt(2,"按优先级显示");
+
 //		tp.setPreferredSize(new Dimension(100,200));
 		tp.setTabPlacement(JTabbedPane.TOP);
 		tp.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		tp.addTab("按星期显示", null, scrollPane_1, null);
 		
+
 		
-		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"ID", "\u59D3\u540D", "\u8D77\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4", "\u63CF\u8FF0", "\u63D0\u793A\u65B9\u5F0F", "\u4F18\u5148\u7EA7"
+			}
+		));
+		JScrollPane scrollPane = new JScrollPane(table_1);
+		tp.addTab("按优先级显示", null, scrollPane, null);
+
 		JMenuBar menu=new JMenuBar();
 		frame.setJMenuBar(menu);
 		JMenu m1=new JMenu("file");

@@ -52,31 +52,40 @@ public class EventManage implements IEvent {
 		Connection conn=null;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="INSERT INTO [work].[dbo].[Event] ([Name],[BeginTime],[EndTime],[Hint],[Complete],"
-					+ "[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?)";
+			int id=0;
+			String sql="select count(*) from [Event]";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-			//java.sql.ResultSet rs=pst.executeQuery();
-			pst.setString(1,event.getName());
+			java.sql.ResultSet rs=pst.executeQuery();
+			while(rs.next())
+			{
+				id=rs.getInt(1)+1;
+			}
+			rs.close();
+			pst.close();
+			
+			
+			
+			 sql="INSERT INTO [work].[dbo].[Event] ([ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],"
+					+ "[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?)";
+			pst=conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.setString(2,event.getName());
+
 			java.sql.Date sqldate=new java.sql.Date(event.getBeginTime().getTime());
-			pst.setDate(2, sqldate);
+			pst.setDate(3, sqldate);
 			java.sql.Date sqldate1=new java.sql.Date(event.getBeginTime().getTime());
-			pst.setDate(3,sqldate1);
+			pst.setDate(4,sqldate1);
 			if(event.isHint()==true){
-				pst.setInt(4, 1);
-			}
-			else{
-				pst.setInt(4, 0);
-			}
-			if(event.isComplete()==true){
 				pst.setInt(5, 1);
 			}
 			else{
 				pst.setInt(5, 0);
 			}
-			pst.setString(6,event.getPlace());
-			pst.setInt(7,event.getLevel());
-			pst.setInt(8,0);
+				pst.setInt(6, 0);
+			pst.setString(7,event.getDescribe());
+			pst.setInt(8,event.getLevel());
 			pst.setInt(9,0);
+			pst.setInt(10,0);
 		//	rs.close();
 			pst.execute();
 			pst.close();
@@ -98,29 +107,55 @@ public class EventManage implements IEvent {
 	public Event SerchEvent(int ID) throws BusinessException, DbException {
 		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
+		int hint;
+		int complete;
+		int del;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[Place],[Character],[describe],[level],[del],[change]"
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
 						+"FROM [work].[dbo].[Event]"+
 						"where id=?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1,ID);
 			java.sql.ResultSet rs=pst.executeQuery();
 			if(!rs.next()) 
-				throw new BusinessException("不存在");
-			while(rs.next()){				
-				Event event=new Event();
-				/*
-				 * 填充去
-				 * */
-				event.setName(rs.getString(1));
-				event.setBeginTime(rs.getDate(2));
-				return event;
+				throw new BusinessException("不存在");	
+			Event event=new Event();	
+			event.setName(rs.getString(2));
+			java.sql.Date beginendtime=rs.getDate(3);
+			java.util.Date begin=new java.util.Date(beginendtime.getTime());
+			event.setBeginTime(begin);
+			java.sql.Date sqlendtime=rs.getDate(4);
+			java.util.Date end=new java.util.Date(sqlendtime.getTime());
+			event.setEndTime(end);
+			hint=rs.getInt(5);
+			if (hint==0){
+				event.setHint(false);
 			}
+			else{
+				event.setHint(true);
+			}
+			complete=rs.getInt(6);
+			if (complete==0){
+				event.setComplete(false);
+			}
+			else{
+				event.setComplete(true);
+			}
+			event.setDescribe(rs.getString(7));
+			event.setLevel(rs.getInt(8));
+			del=rs.getInt(9);
+			if (del==0){
+				event.setComplete(false);
+			}
+			else{
+				event.setComplete(true);
+			}
+		
 			rs.close();
 			pst.execute();
 			pst.close();
-			
+			return event;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -135,7 +170,6 @@ public class EventManage implements IEvent {
 					e.printStackTrace();
 				}
 		}
-		return null;
 	}
 	@Override
 	public void DelEvent(Event event) throws BusinessException, DbException, SQLException {
@@ -166,12 +200,95 @@ public class EventManage implements IEvent {
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1,event.getID());
 			java.sql.ResultSet rs=pst.executeQuery();
+			
+			
+			
+			
+			
+			
+			
 			rs.close();
 			pst.execute();
 			pst.close();	
 		}
 	}
 
+
+
+	@Override
+	public List<Event> LoadEvent(int ID) throws BusinessException, DbException {
+		List<Event> TotalEvent=new ArrayList<Event>();
+		Connection conn=null;
+		int hint;
+		int complete;
+		int del;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
+						+"FROM [work].[dbo].[Event]"+
+						"where id=?";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setInt(1,ID);
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) 
+				throw new BusinessException("不存在");				
+			while(rs.next()){
+				Event event=new Event();	
+				event.setName(rs.getString(2));
+				java.sql.Date beginendtime=rs.getDate(3);
+				java.util.Date begin=new java.util.Date(beginendtime.getTime());
+				event.setBeginTime(begin);
+				java.sql.Date sqlendtime=rs.getDate(4);
+				java.util.Date end=new java.util.Date(sqlendtime.getTime());
+				event.setEndTime(end);
+				hint=rs.getInt(5);
+				if (hint==0){
+					event.setHint(false);
+				}
+				else{
+					event.setHint(true);
+				}
+				complete=rs.getInt(6);
+				if (complete==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				event.setDescribe(rs.getString(7));
+				event.setLevel(rs.getInt(8));
+				del=rs.getInt(9);
+				if (del==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				TotalEvent.add(event);
+			
+			}
+			
+			rs.close();
+			pst.execute();
+			pst.close();	
+
+				
+			return TotalEvent;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
 
 
 }

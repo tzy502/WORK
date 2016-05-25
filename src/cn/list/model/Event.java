@@ -1,6 +1,7 @@
 package cn.list.model;
 
 import java.util.Date;
+import java.util.List;
 public class Event {
 	private int Totalnum;//数据总数
 	private int ID;//事件编号
