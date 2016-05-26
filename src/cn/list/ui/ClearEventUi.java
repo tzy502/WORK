@@ -3,11 +3,16 @@ package cn.list.ui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import cn.list.control.EventManage;
+import cn.list.util.BusinessException;
+import cn.list.util.DbException;
 
 public class ClearEventUi {
 
@@ -31,6 +36,13 @@ public class ClearEventUi {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				EventManage eventManage=new EventManage();
+				try {
+					eventManage.ClearEvent();
+				} catch (BusinessException | DbException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setVisible(false);
 			}	
 		});
@@ -39,6 +51,7 @@ public class ClearEventUi {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+
 				frame.setVisible(false);
 			}	
 		});	

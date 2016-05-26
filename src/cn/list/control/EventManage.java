@@ -3,6 +3,7 @@ package cn.list.control;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +28,13 @@ public class EventManage implements IEvent {
 		}
 		if(EndTime==null){
 			throw new BusinessException("必须写结束时间");
-		}				
+		}
+//		if(BeginTime.before(EndTime)==false)
+//		{
+//			throw new BusinessException("结束必须在起始时间之前");
+//		}
+		
+		
 		Event event=new Event();
 		event.setName(Name);
 		event.setBeginTime(BeginTime);
@@ -70,11 +77,8 @@ public class EventManage implements IEvent {
 			pst=conn.prepareStatement(sql);
 			pst.setInt(1, id);
 			pst.setString(2,event.getName());
-
-			java.sql.Date sqldate=new java.sql.Date(event.getBeginTime().getTime());
-			pst.setDate(3, sqldate);
-			java.sql.Date sqldate1=new java.sql.Date(event.getBeginTime().getTime());
-			pst.setDate(4,sqldate1);
+			pst.setTimestamp(3, new Timestamp(event.getBeginTime().getTime()));
+			pst.setTimestamp(4, new Timestamp(event.getEndTime().getTime()));
 			if(event.isHint()==true){
 				pst.setInt(5, 1);
 			}
@@ -290,5 +294,16 @@ public class EventManage implements IEvent {
 		}
 	}
 
+	public void ClearEvent()throws BusinessException, DbException, SQLException {
+		
+		Connection conn=null;
+		conn=DBUtil.getConnection();
+		String sql="DELETE FROM [work].[dbo].[Event] ";
+		java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
+		pst.execute();
+		pst.close();	
+	
 
+			
+	} 
 }

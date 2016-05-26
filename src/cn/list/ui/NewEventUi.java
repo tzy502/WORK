@@ -10,6 +10,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
@@ -21,9 +23,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormLayout;
+import com.eltima.components.ui.DatePicker;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+
+import cn.list.control.EventManage;
+import cn.list.util.BusinessException;
+import cn.list.util.DbException;
+
 import javax.swing.JRadioButton;
 import java.awt.Font;
 import javax.swing.JTextPane;
@@ -45,6 +53,11 @@ public class NewEventUi {
 	private JTextField begintimetext;
 	private JTextField endtimetext;
 	private JLabel level;
+	private DatePicker datepickbegintime;
+	private DatePicker datepickendtime;
+	private static final String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
+	private Font font=new Font("Times New Roman", Font.BOLD, 14);
+	private Dimension dimension=new Dimension(177,24);
 	public  void newEventui() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
@@ -65,25 +78,14 @@ public class NewEventUi {
 		
 		btnNewButton = new JButton("新建");
 		south.add(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				frame.setVisible(false);
-			}	
-		});
+		
+		
 		lblNewLabel_1 = new JLabel("     ");
 		south.add(lblNewLabel_1);
 		
 		btnNewButton_1 = new JButton("取消");
 		south.add(btnNewButton_1);
-		btnNewButton_1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				frame.setVisible(false);
-			}	
-		});		
+		
 		JPanel Center = new JPanel();
 		frame.getContentPane().add(Center, BorderLayout.CENTER);
 		Center.setLayout(null);
@@ -105,15 +107,30 @@ public class NewEventUi {
 		endtime.setBounds(10, 68, 54, 15);
 		Center.add(endtime);
 		
-		begintimetext = new JTextField();
-		begintimetext.setBounds(74, 38, 284, 21);
-		Center.add(begintimetext);
-		begintimetext.setColumns(10);
+//		begintimetext = new JTextField();
+//		begintimetext.setBounds(74, 38, 284, 21);
+//		Center.add(begintimetext);
+//		begintimetext.setColumns(10);
+//		
 		
-		endtimetext = new JTextField();
-		endtimetext.setBounds(74, 68, 284, 21);
-		Center.add(endtimetext);
-		endtimetext.setColumns(10);
+		Date date=new Date();
+		datepickbegintime = new DatePicker(date,DefaultFormat,font,dimension);
+		datepickbegintime.setBounds(74, 38, 284, 21);
+		datepickbegintime.setLocale(Locale.CHINA);
+		datepickbegintime.setTimePanleVisible(true);
+		Center.add(datepickbegintime);
+		
+//		endtimetext = new JTextField();
+//		endtimetext.setBounds(74, 68, 284, 21);
+//		Center.add(endtimetext);
+//		endtimetext.setColumns(10);
+		
+		datepickendtime = new DatePicker(date,DefaultFormat,font,dimension);
+		datepickendtime.setBounds(74, 68, 284, 21);
+		datepickendtime.setLocale(Locale.CHINA);
+		datepickendtime.setTimePanleVisible(true);
+		Center.add(datepickendtime);
+		
 		
 		level = new JLabel("\u4F18\u5148\u7EA7");
 		level.setBounds(10, 98, 54, 15);
@@ -124,16 +141,17 @@ public class NewEventUi {
 		Center.add(leveljpane);
 		leveljpane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JRadioButton one = new JRadioButton("1");
+		final JRadioButton one = new JRadioButton("1");
+		one.setSelected(true);
 		leveljpane.add(one);
 		
-		JRadioButton two = new JRadioButton("2");
+		final JRadioButton two = new JRadioButton("2");
 		leveljpane.add(two);
 		
-		JRadioButton three = new JRadioButton("3");
+		final JRadioButton three = new JRadioButton("3");
 		leveljpane.add(three);
 		
-		JRadioButton four = new JRadioButton("4");
+		final JRadioButton four = new JRadioButton("4");
 		leveljpane.add(four);
 		ButtonGroup levelBG=new ButtonGroup();
 		levelBG.add(one);
@@ -150,7 +168,8 @@ public class NewEventUi {
 		Center.add(noticepanel);
 		noticepanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JRadioButton noticeyes = new JRadioButton("\u662F");
+		final JRadioButton noticeyes = new JRadioButton("\u662F");
+		noticeyes.setSelected(true);
 		noticepanel.add(noticeyes);
 		
 		JRadioButton noticeno = new JRadioButton("\u5426");
@@ -175,13 +194,55 @@ public class NewEventUi {
 		scrollPane.setBounds(20, 184, 338, 90);
 		Center.add(scrollPane);
 		
-		JTextArea describetextArea = new JTextArea();
+		final JTextArea describetextArea = new JTextArea();
 		describetextArea.setLineWrap(true);
 		describetextArea.setWrapStyleWord(true); 
 		scrollPane.setViewportView(describetextArea);
 		frame.setVisible(true);
-		
-		
-		
+		//新建的事件
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
+				String name =nametext.getText();
+				Date begin=(Date)datepickbegintime.getValue();
+				Date end=(Date)datepickendtime.getValue();
+				boolean hint;
+				if(noticeyes.isSelected()==true)
+					hint=true;
+				else
+					hint=false;	
+				int level = 0;
+				if(one.isSelected()==true)
+					level=1;
+				if(two.isSelected()==true)
+					level=2;
+				if(three.isSelected()==true)
+					level=3;
+				if(four.isSelected()==true)
+					level=4;
+				String describe=describetextArea.getText();
+				EventManage a=new EventManage();
+				try {
+					a.CreateEvent(name, begin, end, hint, describe, level);
+				} catch (BusinessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DbException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				frame.setVisible(false);
+				}	
+			}
+		});
+		btnNewButton_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});	
 	}
 }
+

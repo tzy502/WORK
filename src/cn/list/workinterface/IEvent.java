@@ -15,4 +15,5 @@ public interface IEvent {
 	public void ModifyEvent(Event event,Event newevent)throws BusinessException, DbException, SQLException ;
 	public Event SerchEvent(int ID)throws BusinessException, DbException;
 	public List<Event> LoadEvent(int ID) throws BusinessException, DbException; 
+	public void ClearEvent()throws BusinessException, DbException, SQLException; 
 }
