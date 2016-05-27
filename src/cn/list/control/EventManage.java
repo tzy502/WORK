@@ -15,7 +15,7 @@ import cn.list.model.Event;
 import cn.list.workinterface.IEvent;
 
 public class EventManage implements IEvent {
-
+	
 	@Override
 	public void CreateEvent(String Name,Date BeginTime,Date EndTime,boolean Hint,String describe,int level) throws BusinessException, DbException {
 		// 创建新事件
@@ -126,10 +126,10 @@ public class EventManage implements IEvent {
 				throw new BusinessException("不存在");	
 			Event event=new Event();	
 			event.setName(rs.getString(2));
-			java.sql.Date beginendtime=rs.getDate(3);
+			Timestamp beginendtime=rs.getTimestamp(3);
 			java.util.Date begin=new java.util.Date(beginendtime.getTime());
 			event.setBeginTime(begin);
-			java.sql.Date sqlendtime=rs.getDate(4);
+			Timestamp sqlendtime=rs.getTimestamp(4);
 			java.util.Date end=new java.util.Date(sqlendtime.getTime());
 			event.setEndTime(end);
 			hint=rs.getInt(5);
@@ -220,7 +220,7 @@ public class EventManage implements IEvent {
 
 
 	@Override
-	public List<Event> LoadEvent(int ID) throws BusinessException, DbException {
+	public List<Event> LoadEvent() throws BusinessException, DbException {
 		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
 		int hint;
@@ -229,20 +229,19 @@ public class EventManage implements IEvent {
 		try {
 			conn=DBUtil.getConnection();
 			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
-						+"FROM [work].[dbo].[Event]"+
-						"where id=?";
+						+"FROM [work].[dbo].[Event]";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setInt(1,ID);
 			java.sql.ResultSet rs=pst.executeQuery();
-			if(!rs.next()) 
-				throw new BusinessException("不存在");				
+//			if(!rs.next()) 
+//				return null;			
 			while(rs.next()){
 				Event event=new Event();	
+				event.setID(rs.getInt(1));
 				event.setName(rs.getString(2));
-				java.sql.Date beginendtime=rs.getDate(3);
+				Timestamp beginendtime=rs.getTimestamp(3);
 				java.util.Date begin=new java.util.Date(beginendtime.getTime());
 				event.setBeginTime(begin);
-				java.sql.Date sqlendtime=rs.getDate(4);
+				Timestamp sqlendtime=rs.getTimestamp(4);
 				java.util.Date end=new java.util.Date(sqlendtime.getTime());
 				event.setEndTime(end);
 				hint=rs.getInt(5);

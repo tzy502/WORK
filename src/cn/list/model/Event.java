@@ -16,6 +16,8 @@ public class Event {
 	private int level;//优先级
 	private boolean del;//删除标识符
 	private boolean change;//修改标识符
+	
+	public static boolean  flag=true;//运行标识符
 	public int getTotalnum() {
 		return Totalnum;
 	}
