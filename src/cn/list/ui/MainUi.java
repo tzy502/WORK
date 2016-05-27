@@ -14,6 +14,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
@@ -27,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.RootPaneContainer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import cn.list.control.EventManage;
 import cn.list.control.Fortest;
@@ -39,18 +41,76 @@ import cn.list.waste.ToDolistamain;
 import javax.swing.JTextPane;
 import javax.swing.JTable;
 public class MainUi {
-
+	
 	private JFrame frame;
 	private JTable table;
-	private JTable table_1;
+	public JTable table_1;
+	//
 	Object tblEventData[][];
 	List<Event> allEvent=null;
 	DefaultTableModel tabStepModel=new DefaultTableModel();
-	/**
-	 * Launch the application.
-	 */
+	Vector<Vector<Object>> eventData = new Vector<Vector<Object>>();
+	Vector<String> columnNames = new Vector<String>();
+	public void load(){
 
-
+		columnNames.add("ID");
+		columnNames.add( "\u59D3\u540D");
+		columnNames.add("\u8D77\u59CB\u65F6\u95F4");
+		columnNames.add("\u7ED3\u675F\u65F6\u95F4");
+		columnNames.add("\u63CF\u8FF0");
+		columnNames.add("\u662F\u5426\u63D0\u793A");
+		columnNames.add("\u4F18\u5148\u7EA7");
+		EventManage load =new EventManage();
+		try {
+			allEvent=load.LoadEvent();
+		} catch (BusinessException | DbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(allEvent!=null)
+		{
+			for(int i=0;i<allEvent.size();i++)
+			{
+					Event event=allEvent.get(i);
+					if(event.isDel()==false||event.isComplete()==false)
+					{
+						Vector<Object> eventVdate = new Vector<Object>();
+						eventVdate.add(event.getID());
+						eventVdate.add(event.getName());
+						eventVdate.add(event.getBeginTime());
+						eventVdate.add(event.getEndTime());
+						eventVdate.add(event.getDescribe());
+						eventVdate.add(event.isHint());
+						eventVdate.add(event.getLevel());
+						eventData.add(eventVdate);
+				
+					}
+						
+			}
+		}
+		
+	}
+	
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MainUi window = new MainUi();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+//
+//	/**
+//	 * Create the application.
+//	 */
+//	public MainUi() {
+//		initialize();
+//	}
+	
 	public void initialize() {
 		frame = new JFrame("timetable");
 		frame.setBounds(200, 200, 450, 450);
@@ -202,51 +262,41 @@ public class MainUi {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		tp.addTab("按星期显示", null, scrollPane_1, null);
 		
+		this.load();
+		JTable table_1=new JTable(eventData, columnNames);
 		
-		//tblStepData =new Object[planSteps.size()][BeanStep.tblStepTitle.length];
-		table_1 = new JTable();
-//		table_1.setForeground(Color.WHITE);
-//		table_1.setBackground(Color.black);
- 		EventManage load =new EventManage();
-		try {
-			allEvent=load.LoadEvent();
-		} catch (BusinessException | DbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		tblEventData = new Object[allEvent.size()][7];
-		if(allEvent!=null){
-			for(int i=0;i<allEvent.size();i++){
-					Event event=allEvent.get(i);
-					if(event.isDel()==false||event.isComplete()==false){
-						tblEventData[i][0]=event.getID();
-						tblEventData[i][1]=event.getName();
-						tblEventData[i][2]=event.getBeginTime();
-						tblEventData[i][3]=event.getEndTime();
-						tblEventData[i][4]=event.getDescribe();
-						tblEventData[i][5]=event.isHint();
-						tblEventData[i][6]=event.getLevel();
-					}
-					
-				
-			}
-		}
-
-
-
-		/*		new Object[][] {
-				{null, null, null, null, null, null, null},*/
-			table_1.setModel(new DefaultTableModel(
-					tblEventData	
-			,
-			new String[] {
-				"ID", "\u59D3\u540D", "\u8D77\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4", "\u63CF\u8FF0", "\u662F\u5426\u63D0\u793A", "\u4F18\u5148\u7EA7"
-			}
-		));
-		/*
-		 *	*/
 		
+		//表格从这里开始
+//		EventManage load =new EventManage();
+//		try {
+//			allEvent=load.LoadEvent();
+//		} catch (BusinessException | DbException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		tblEventData = new Object[allEvent.size()][7];
+//		if(allEvent!=null){
+//			for(int i=0;i<allEvent.size();i++){
+//					Event event=allEvent.get(i);
+//					if(event.isDel()==false||event.isComplete()==false){
+//						tblEventData[i][0]=event.getID();
+//						tblEventData[i][1]=event.getName();
+//						tblEventData[i][2]=event.getBeginTime();
+//						tblEventData[i][3]=event.getEndTime();
+//						tblEventData[i][4]=event.getDescribe();
+//						tblEventData[i][5]=event.isHint();
+//						tblEventData[i][6]=event.getLevel();
+//					}
+//			}
+//		}
+//		table_1.setModel(new DefaultTableModel(
+//				tblEventData	
+//		,
+//		new String[] {
+//			"ID", "\u59D3\u540D", "\u8D77\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4", "\u63CF\u8FF0", "\u662F\u5426\u63D0\u793A", "\u4F18\u5148\u7EA7"
+//		}
+//	));	
+		//到这里结束
 		JScrollPane scrollPane = new JScrollPane(table_1);
 		scrollPane.setBackground(Color.white);
 		tp.addTab("按优先级显示", null, scrollPane, null);
@@ -292,9 +342,18 @@ public class MainUi {
 		btnNewButton_1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
-			{
+			{	
+				
 				ModifyEventUi a=new ModifyEventUi();
-				a.ModifyEventUi();
+				EventManage load =new EventManage();
+				try {
+					allEvent=load.LoadEvent();
+				} catch (BusinessException | DbException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Event event=allEvent.get(1);
+				a.ModifyEventUi(event);
 			}	
 		});
 		btnNewButton_2.addActionListener(new ActionListener()

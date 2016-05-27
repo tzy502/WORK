@@ -58,6 +58,10 @@ public class NewEventUi {
 	private static final String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
 	private Font font=new Font("Times New Roman", Font.BOLD, 14);
 	private Dimension dimension=new Dimension(177,24);
+	public boolean iscreat=false;
+	
+	
+	
 	public  void newEventui() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
@@ -208,6 +212,10 @@ public class NewEventUi {
 				String name =nametext.getText();
 				Date begin=(Date)datepickbegintime.getValue();
 				Date end=(Date)datepickendtime.getValue();
+				if(name!=null&&begin!=null&&end!=null){
+					iscreat=true;	
+			
+				}
 				boolean hint;
 				if(noticeyes.isSelected()==true)
 					hint=true;
@@ -224,15 +232,20 @@ public class NewEventUi {
 					level=4;
 				String describe=describetextArea.getText();
 				EventManage a=new EventManage();
+				MainUi b=new MainUi();
+				
+				
 				try {
 					a.CreateEvent(name, begin, end, hint, describe, level);
+				
+					frame.setVisible(false);
 				} catch (BusinessException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (DbException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				frame.setVisible(false);
+				
 				}	
 			}
 		});
@@ -243,6 +256,9 @@ public class NewEventUi {
 				frame.setVisible(false);
 			}	
 		});	
+
+		
+		
 	}
 }
 

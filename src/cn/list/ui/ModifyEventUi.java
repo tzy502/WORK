@@ -1,10 +1,14 @@
 package cn.list.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,6 +20,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.eltima.components.ui.DatePicker;
+
+import cn.list.control.EventManage;
+import cn.list.model.Event;
+import cn.list.util.BusinessException;
+import cn.list.util.DbException;
 
 public class ModifyEventUi {
 
@@ -31,7 +42,13 @@ public class ModifyEventUi {
 	private JTextField begintimetext;
 	private JTextField endtimetext;
 	private JLabel level;
-	public  void ModifyEventUi() {
+	private DatePicker datepickbegintime;
+	private DatePicker datepickendtime;
+	private static final String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
+	private Font font=new Font("Times New Roman", Font.BOLD, 14);
+	private Dimension dimension=new Dimension(177,24);
+	public boolean iscreat=false;
+	public  void ModifyEventUi(final Event event) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -51,13 +68,7 @@ public class ModifyEventUi {
 		
 		btnNewButton = new JButton("ÐÞ¸Ä");
 		south.add(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				frame.setVisible(false);
-			}	
-		});		
+	
 		lblNewLabel_1 = new JLabel("     ");
 		south.add(lblNewLabel_1);
 		
@@ -78,7 +89,7 @@ public class ModifyEventUi {
 		name.setBounds(10, 8, 54, 15);
 		Center.add(name);
 		
-		nametext = new JTextField();
+		nametext = new JTextField(event.getName());
 		nametext.setBounds(74, 8, 284, 21);
 		Center.add(nametext);
 		nametext.setColumns(10);
@@ -90,16 +101,24 @@ public class ModifyEventUi {
 		JLabel endtime = new JLabel("\u7ED3\u675F\u65F6\u95F4");
 		endtime.setBounds(10, 68, 54, 15);
 		Center.add(endtime);
+
+		Date date=new Date();
+		datepickbegintime = new DatePicker(event.getBeginTime(),DefaultFormat,font,dimension);
+		datepickbegintime.setBounds(74, 38, 284, 21);
+		datepickbegintime.setLocale(Locale.CHINA);
+		datepickbegintime.setTimePanleVisible(true);
+		Center.add(datepickbegintime);
 		
-		begintimetext = new JTextField();
-		begintimetext.setBounds(74, 38, 284, 21);
-		Center.add(begintimetext);
-		begintimetext.setColumns(10);
+//		endtimetext = new JTextField();
+//		endtimetext.setBounds(74, 68, 284, 21);
+//		Center.add(endtimetext);
+//		endtimetext.setColumns(10);
 		
-		endtimetext = new JTextField();
-		endtimetext.setBounds(74, 68, 284, 21);
-		Center.add(endtimetext);
-		endtimetext.setColumns(10);
+		datepickendtime = new DatePicker(event.getEndTime(),DefaultFormat,font,dimension);
+		datepickendtime.setBounds(74, 68, 284, 21);
+		datepickendtime.setLocale(Locale.CHINA);
+		datepickendtime.setTimePanleVisible(true);
+		Center.add(datepickendtime);
 		
 		level = new JLabel("\u4F18\u5148\u7EA7");
 		level.setBounds(10, 98, 54, 15);
@@ -110,22 +129,39 @@ public class ModifyEventUi {
 		Center.add(leveljpane);
 		leveljpane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JRadioButton one = new JRadioButton("1");
+		final JRadioButton one = new JRadioButton("1");
 		leveljpane.add(one);
 		
-		JRadioButton two = new JRadioButton("2");
+		final JRadioButton two = new JRadioButton("2");
 		leveljpane.add(two);
 		
-		JRadioButton three = new JRadioButton("3");
+		final JRadioButton three = new JRadioButton("3");
 		leveljpane.add(three);
 		
-		JRadioButton four = new JRadioButton("4");
+		final JRadioButton four = new JRadioButton("4");
 		leveljpane.add(four);
 		ButtonGroup levelBG=new ButtonGroup();
 		levelBG.add(one);
 		levelBG.add(two);
 		levelBG.add(three);
 		levelBG.add(four);
+		if(event.getLevel()==1)
+		{
+			one.setSelected(true);
+		}
+		if(event.getLevel()==2)
+		{
+			two.setSelected(true);
+		}		
+		if(event.getLevel()==3)
+		{
+			three.setSelected(true);
+		}		
+		if(event.getLevel()==4)
+		{
+			four.setSelected(true);
+		}		
+		
 		
 		JLabel label_1 = new JLabel("\u662F\u5426\u63D0\u793A");
 		label_1.setBounds(10, 128, 54, 15);
@@ -136,7 +172,7 @@ public class ModifyEventUi {
 		Center.add(noticepanel);
 		noticepanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JRadioButton noticeyes = new JRadioButton("\u662F");
+		final JRadioButton noticeyes = new JRadioButton("\u662F");
 		noticepanel.add(noticeyes);
 		
 		JRadioButton noticeno = new JRadioButton("\u5426");
@@ -144,6 +180,15 @@ public class ModifyEventUi {
 		ButtonGroup repeat=new ButtonGroup();	
 		repeat.add(noticeyes);
 		repeat.add(noticeno);
+		if(event.isHint()==true){
+			noticeyes.setSelected(true);
+		}
+		else{
+			noticeno.setSelected(true);
+		}
+			
+		
+		
 		
 		JLabel notice = new JLabel("\u63D0\u793A\u65B9\u5F0F");
 		notice.setBounds(172, 128, 54, 15);
@@ -161,12 +206,57 @@ public class ModifyEventUi {
 		scrollPane.setBounds(20, 184, 338, 90);
 		Center.add(scrollPane);
 		
-		JTextArea describetextArea = new JTextArea();
+		final JTextArea describetextArea = new JTextArea(event.getDescribe());
 		describetextArea.setLineWrap(true);
 		describetextArea.setWrapStyleWord(true); 
 		scrollPane.setViewportView(describetextArea);
 		frame.setVisible(true);
-		
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				Event newevent =new Event();
+				String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
+				newevent.setName(nametext.getText());
+				newevent.setBeginTime((Date)datepickbegintime.getValue());
+				newevent.setEndTime((Date)datepickendtime.getValue());
+				boolean hint;
+				if(noticeyes.isSelected()==true)
+					newevent.setHint(true);
+				else
+					newevent.setHint(false);
+				
+				
+				int level = 0;
+				if(one.isSelected()==true)
+					newevent.setLevel(1);
+				if(two.isSelected()==true)
+					newevent.setLevel(2);
+				if(three.isSelected()==true)
+					newevent.setLevel(3);
+				if(four.isSelected()==true)
+					newevent.setLevel(4);
+				event.setDescribe(describetextArea.getText());
+				
+				EventManage a=new EventManage();
+
+				try {
+					a.ModifyEvent(event, newevent);
+
+					frame.setVisible(false);
+				} catch (BusinessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DbException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+			}
+		});
 }
 
 }
