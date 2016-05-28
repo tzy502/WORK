@@ -29,10 +29,10 @@ public class EventManage implements IEvent {
 		if(EndTime==null){
 			throw new BusinessException("必须写结束时间");
 		}
-//		if(BeginTime.before(EndTime)==false)
-//		{
-//			throw new BusinessException("结束必须在起始时间之前");
-//		}
+		if(BeginTime.before(EndTime)==false)
+		{
+			throw new BusinessException("结束必须在起始时间之前");
+		}
 		
 		
 		Event event=new Event();
