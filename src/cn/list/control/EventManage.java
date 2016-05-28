@@ -125,6 +125,7 @@ public class EventManage implements IEvent {
 			if(!rs.next()) 
 				throw new BusinessException("²»´æÔÚ");	
 			Event event=new Event();	
+			event.setID(ID);
 			event.setName(rs.getString(2));
 			Timestamp beginendtime=rs.getTimestamp(3);
 			java.util.Date begin=new java.util.Date(beginendtime.getTime());
@@ -185,8 +186,6 @@ public class EventManage implements IEvent {
 			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
 			pst.setInt(1,event.getID());
-			java.sql.ResultSet rs=pst.executeQuery();
-			rs.close();
 			pst.execute();
 			pst.close();	
 		}
@@ -200,18 +199,30 @@ public class EventManage implements IEvent {
 		if(a.SerchEvent(event.getID())!=null){
 			Connection conn=null;
 			conn=DBUtil.getConnection();
-			String sql="UPDATE [work].[dbo].[Event]SET [del] = 1 WHERE id=?";
+			String sql="UPDATE [work].[dbo].[Event]"
+					+" SET [Name] = ? ,"
+					+ "[BeginTime] =? ,"
+					+ "[EndTime] = ?,"
+					+ "[Hint] = ?,"
+					+ "[describe] =?,"
+					+ "[level] = ?"
+					+" WHERE id=?";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-			pst.setInt(1,event.getID());
-			java.sql.ResultSet rs=pst.executeQuery();
+			pst.setString(1,newevent.getName());
+			pst.setTimestamp(2, new Timestamp(newevent.getBeginTime().getTime()));
+			pst.setTimestamp(3, new Timestamp(newevent.getEndTime().getTime()));
+			if(newevent.isHint()==true){
+				pst.setInt(4, 1);
+			}
+			else{
+				pst.setInt(4, 0);
+			}
 			
+			pst.setString(5,newevent.getDescribe());
+				
+			pst.setInt(6,newevent.getLevel());	
+			pst.setInt(7,event.getID());	
 			
-			
-			
-			
-			
-			
-			rs.close();
 			pst.execute();
 			pst.close();	
 		}

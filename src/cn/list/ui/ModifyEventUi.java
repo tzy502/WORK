@@ -48,6 +48,7 @@ public class ModifyEventUi {
 	private Font font=new Font("Times New Roman", Font.BOLD, 14);
 	private Dimension dimension=new Dimension(177,24);
 	public boolean iscreat=false;
+	JTextArea describetextArea ;
 	public  void ModifyEventUi(final Event event) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 400, 400);
@@ -206,7 +207,7 @@ public class ModifyEventUi {
 		scrollPane.setBounds(20, 184, 338, 90);
 		Center.add(scrollPane);
 		
-		final JTextArea describetextArea = new JTextArea(event.getDescribe());
+		describetextArea = new JTextArea(event.getDescribe());
 		describetextArea.setLineWrap(true);
 		describetextArea.setWrapStyleWord(true); 
 		scrollPane.setViewportView(describetextArea);
@@ -215,6 +216,7 @@ public class ModifyEventUi {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				
 				Event newevent =new Event();
 				String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
 				newevent.setName(nametext.getText());
@@ -236,13 +238,13 @@ public class ModifyEventUi {
 					newevent.setLevel(3);
 				if(four.isSelected()==true)
 					newevent.setLevel(4);
-				event.setDescribe(describetextArea.getText());
+		
+				newevent.setDescribe(describetextArea.getText());
 				
 				EventManage a=new EventManage();
 
 				try {
 					a.ModifyEvent(event, newevent);
-
 					frame.setVisible(false);
 				} catch (BusinessException e1) {
 					// TODO Auto-generated catch block

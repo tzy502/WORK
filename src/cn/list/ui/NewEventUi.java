@@ -232,9 +232,6 @@ public class NewEventUi {
 					level=4;
 				String describe=describetextArea.getText();
 				EventManage a=new EventManage();
-				MainUi b=new MainUi();
-				
-				
 				try {
 					a.CreateEvent(name, begin, end, hint, describe, level);
 				

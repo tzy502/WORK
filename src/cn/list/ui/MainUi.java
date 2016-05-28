@@ -51,8 +51,10 @@ public class MainUi {
 	DefaultTableModel tabStepModel=new DefaultTableModel();
 	Vector<Vector<Object>> eventData = new Vector<Vector<Object>>();
 	Vector<String> columnNames = new Vector<String>();
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void load(){
-
 		columnNames.add("ID");
 		columnNames.add( "\u59D3\u540D");
 		columnNames.add("\u8D77\u59CB\u65F6\u95F4");
@@ -72,7 +74,7 @@ public class MainUi {
 			for(int i=0;i<allEvent.size();i++)
 			{
 					Event event=allEvent.get(i);
-					if(event.isDel()==false||event.isComplete()==false)
+					if(event.isDel()==false&&event.isComplete()==false)
 					{
 						Vector<Object> eventVdate = new Vector<Object>();
 						eventVdate.add(event.getID());
@@ -83,33 +85,32 @@ public class MainUi {
 						eventVdate.add(event.isHint());
 						eventVdate.add(event.getLevel());
 						eventData.add(eventVdate);
-				
 					}
-						
 			}
 		}
 		
 	}
 	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					MainUi window = new MainUi();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-//
-//	/**
-//	 * Create the application.
-//	 */
-//	public MainUi() {
-//		initialize();
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainUi window = new MainUi();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public MainUi() {
+		initialize();
+	}
 	
 	public void initialize() {
 		frame = new JFrame("timetable");
@@ -144,10 +145,7 @@ public class MainUi {
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("删除");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 4;
@@ -240,12 +238,22 @@ public class MainUi {
 		gbc_panel_2.gridy = 9;
 		panel_1.add(panel_2, gbc_panel_2);
 		
+		
+		
+		
+		
 		JTabbedPane tp = new JTabbedPane(JTabbedPane.TOP);
 		frame.getContentPane().add(tp, BorderLayout.CENTER);
 		JPanel contentPene1 =new JPanel();			//文字中层ok		
 		contentPene1.setBackground(Color.WHITE);
 		JPanel contentPene4 =new JPanel();			//按钮中层ok
 		//中层over
+		this.load();
+		table_1=new JTable(eventData, columnNames);
+		JScrollPane scrollPane = new JScrollPane(table_1);
+		scrollPane.setBackground(Color.white);
+		tp.addTab("按优先级显示", null, scrollPane, null);
+		
 		tp.addTab("p1", contentPene1);
 		contentPene1.setLayout(new BorderLayout(0, 0));
 		
@@ -253,7 +261,7 @@ public class MainUi {
 		txtpnAsdfasfd.setText("asdfasfd");
 		contentPene1.add(txtpnAsdfasfd, BorderLayout.NORTH);
 		tp.setEnabledAt(0,true);
-		tp.setTitleAt(0," 按日显示  ");
+		tp.setTitleAt(1," 按日显示  ");
 
 //		tp.setPreferredSize(new Dimension(100,200));
 		tp.setTabPlacement(JTabbedPane.TOP);
@@ -262,44 +270,7 @@ public class MainUi {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		tp.addTab("按星期显示", null, scrollPane_1, null);
 		
-		this.load();
-		JTable table_1=new JTable(eventData, columnNames);
-		
-		
-		//表格从这里开始
-//		EventManage load =new EventManage();
-//		try {
-//			allEvent=load.LoadEvent();
-//		} catch (BusinessException | DbException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		tblEventData = new Object[allEvent.size()][7];
-//		if(allEvent!=null){
-//			for(int i=0;i<allEvent.size();i++){
-//					Event event=allEvent.get(i);
-//					if(event.isDel()==false||event.isComplete()==false){
-//						tblEventData[i][0]=event.getID();
-//						tblEventData[i][1]=event.getName();
-//						tblEventData[i][2]=event.getBeginTime();
-//						tblEventData[i][3]=event.getEndTime();
-//						tblEventData[i][4]=event.getDescribe();
-//						tblEventData[i][5]=event.isHint();
-//						tblEventData[i][6]=event.getLevel();
-//					}
-//			}
-//		}
-//		table_1.setModel(new DefaultTableModel(
-//				tblEventData	
-//		,
-//		new String[] {
-//			"ID", "\u59D3\u540D", "\u8D77\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4", "\u63CF\u8FF0", "\u662F\u5426\u63D0\u793A", "\u4F18\u5148\u7EA7"
-//		}
-//	));	
-		//到这里结束
-		JScrollPane scrollPane = new JScrollPane(table_1);
-		scrollPane.setBackground(Color.white);
-		tp.addTab("按优先级显示", null, scrollPane, null);
+
 
 		JMenuBar menu=new JMenuBar();
 		frame.setJMenuBar(menu);
@@ -345,14 +316,25 @@ public class MainUi {
 			{	
 				
 				ModifyEventUi a=new ModifyEventUi();
-				EventManage load =new EventManage();
+				EventManage load =new EventManage();	
+				int selectRows=table_1.getSelectedRow();
+				if(selectRows==-1)
+					try {
+						throw new BusinessException("必须选中一个事件");
+					} catch (BusinessException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				int eventid=(int) table_1.getValueAt(selectRows, 0) ;
+				
+				Event event = null;
 				try {
-					allEvent=load.LoadEvent();
+					event = load.SerchEvent(eventid);
 				} catch (BusinessException | DbException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				Event event=allEvent.get(1);
+
 				a.ModifyEventUi(event);
 			}	
 		});
@@ -361,7 +343,25 @@ public class MainUi {
 			public void actionPerformed(ActionEvent e) 
 			{
 				DelEventUi a=new DelEventUi();
-				a.DelEventUi();
+				EventManage load =new EventManage();	
+				int selectRows=table_1.getSelectedRow();
+				if(selectRows==-1)
+					try {
+						throw new BusinessException("必须选中一个事件");
+					} catch (BusinessException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				int eventid=(int) table_1.getValueAt(selectRows, 0) ;
+				
+				Event event = null;
+				try {
+					event = load.SerchEvent(eventid);
+				} catch (BusinessException | DbException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				a.DelEventUi(event);
 			}	
 		});
 		btnNewButton_3.addActionListener(new ActionListener()
@@ -385,6 +385,7 @@ public class MainUi {
 				}
 			}	
 		});
+		
 	}
 
 }
