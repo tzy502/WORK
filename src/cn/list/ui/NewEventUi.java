@@ -29,6 +29,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import cn.list.control.EventManage;
+import cn.list.util.BaseException;
 import cn.list.util.BusinessException;
 import cn.list.util.DbException;
 
@@ -234,7 +235,8 @@ public class NewEventUi {
 				EventManage a=new EventManage();
 				try {
 					a.CreateEvent(name, begin, end, hint, describe, level);
-				
+					iscreat=true;
+					System.out.println(iscreat);
 					frame.setVisible(false);
 				} catch (BusinessException e1) {
 					// TODO Auto-generated catch block
@@ -243,7 +245,8 @@ public class NewEventUi {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				
-				}	
+				} 
+
 			}
 		});
 		btnNewButton_1.addActionListener(new ActionListener()

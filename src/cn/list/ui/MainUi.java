@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -30,10 +31,12 @@ import javax.swing.RootPaneContainer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+
 import cn.list.control.EventManage;
 import cn.list.control.Fortest;
 import cn.list.model.Event;
 import cn.list.ui.*;
+import cn.list.util.BaseException;
 import cn.list.util.BusinessException;
 import cn.list.util.DbException;
 import cn.list.waste.ToDolistamain;
@@ -43,7 +46,6 @@ import javax.swing.JTable;
 public class MainUi {
 	
 	private JFrame frame;
-	private JTable table;
 	public JTable table_1;
 	//
 	Object tblEventData[][];
@@ -51,17 +53,12 @@ public class MainUi {
 	DefaultTableModel tabStepModel=new DefaultTableModel();
 	Vector<Vector<Object>> eventData = new Vector<Vector<Object>>();
 	Vector<String> columnNames = new Vector<String>();
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void load(){
-		columnNames.add("ID");
-		columnNames.add( "\u59D3\u540D");
-		columnNames.add("\u8D77\u59CB\u65F6\u95F4");
-		columnNames.add("\u7ED3\u675F\u65F6\u95F4");
-		columnNames.add("\u63CF\u8FF0");
-		columnNames.add("\u662F\u5426\u63D0\u793A");
-		columnNames.add("\u4F18\u5148\u7EA7");
+	DefaultTableModel tablmod=new DefaultTableModel();
+	Object tblData[][];
+	Object tblTitle[];
+	JButton button_1;
+	
+	public  void reload() throws BaseException{
 		EventManage load =new EventManage();
 		try {
 			allEvent=load.LoadEvent();
@@ -69,27 +66,30 @@ public class MainUi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(allEvent!=null)
-		{
-			for(int i=0;i<allEvent.size();i++)
-			{
-					Event event=allEvent.get(i);
-					if(event.isDel()==false&&event.isComplete()==false)
-					{
-						Vector<Object> eventVdate = new Vector<Object>();
-						eventVdate.add(event.getID());
-						eventVdate.add(event.getName());
-						eventVdate.add(event.getBeginTime());
-						eventVdate.add(event.getEndTime());
-						eventVdate.add(event.getDescribe());
-						eventVdate.add(event.isHint());
-						eventVdate.add(event.getLevel());
-						eventData.add(eventVdate);
-					}
+		Object tblTitle[]={"ID","姓名","起始时间","结束时间","描述","是否提示","优先级"};
+		if(allEvent.size()<=15)
+			tblData =new Object[16][7];
+		else
+			tblData =new Object[allEvent.size()][7];
+		int i=0;
+		for(int j=0;j<allEvent.size();j++){
+			if(allEvent.get(j).isDel()==false&&allEvent.get(j).isComplete()==false){
+				tblData[i][0]=allEvent.get(j).getID();
+				tblData[i][1]=allEvent.get(j).getName();
+				tblData[i][2]=allEvent.get(j).getBeginTime();
+				tblData[i][3]=allEvent.get(j).getEndTime();
+				tblData[i][4]=allEvent.get(j).getDescribe();
+				tblData[i][5]=allEvent.get(j).isHint();
+				tblData[i][6]=allEvent.get(j).getLevel();
+				i++;
 			}
+			
 		}
-		
+		tablmod.setDataVector(tblData,tblTitle);
+		table_1.validate();
+		table_1.repaint();
 	}
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -122,9 +122,9 @@ public class MainUi {
 		frame.getContentPane().add(panel, BorderLayout.EAST);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 10, 0};
-		gbl_panel.rowHeights = new int[]{10, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{10, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JButton b1 = new JButton("\u65B0\u5EFA");
@@ -159,20 +159,27 @@ public class MainUi {
 		gbc_btnNewButton_3.gridy = 5;
 		panel.add(btnNewButton_3, gbc_btnNewButton_3);
 		
+		button_1 = new JButton("\u5237\u65B0\u5B9E\u9A8C");
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 4;
+		gbc_button_1.gridy = 6;
+		panel.add(button_1, gbc_button_1);
+		
 		JPanel panel_4 = new JPanel();
 		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
 		gbc_panel_4.gridwidth = 3;
 		gbc_panel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_4.fill = GridBagConstraints.BOTH;
 		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 6;
+		gbc_panel_4.gridy = 7;
 		panel.add(panel_4, gbc_panel_4);
 		
 		JButton button = new JButton("\u6DFB\u52A0\u6D4B\u8BD5\u6570\u636E");
 		GridBagConstraints gbc_button = new GridBagConstraints();
 		gbc_button.insets = new Insets(0, 0, 5, 5);
 		gbc_button.gridx = 4;
-		gbc_button.gridy = 6;
+		gbc_button.gridy = 7;
 		panel.add(button, gbc_button);
 		
 		JPanel panel_1 = new JPanel();
@@ -248,8 +255,24 @@ public class MainUi {
 		contentPene1.setBackground(Color.WHITE);
 		JPanel contentPene4 =new JPanel();			//按钮中层ok
 		//中层over
-		this.load();
-		table_1=new JTable(eventData, columnNames);
+		
+		
+		
+		
+		//表格
+		table_1=new JTable(tablmod);
+		
+		try {
+			this.reload();
+		} catch (BaseException e3) {
+			e3.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
 		JScrollPane scrollPane = new JScrollPane(table_1);
 		scrollPane.setBackground(Color.white);
 		tp.addTab("按优先级显示", null, scrollPane, null);
@@ -302,12 +325,21 @@ public class MainUi {
 			}
 		});
 		frame.setVisible(true);
+
 		//以下是按键触发事件
 		b1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				NewEventUi a=new NewEventUi();
 				a.newEventui();
-				
+				try {
+					reload();
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			    
+
+
 			}
 		});
 		btnNewButton_1.addActionListener(new ActionListener()
@@ -334,14 +366,22 @@ public class MainUi {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+				
 				a.ModifyEventUi(event);
+				try {
+					reload();
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
 			}	
 		});
 		btnNewButton_2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				System.out.println(1);
 				DelEventUi a=new DelEventUi();
 				EventManage load =new EventManage();	
 				int selectRows=table_1.getSelectedRow();
@@ -349,19 +389,26 @@ public class MainUi {
 					try {
 						throw new BusinessException("必须选中一个事件");
 					} catch (BusinessException e2) {
-						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
 				int eventid=(int) table_1.getValueAt(selectRows, 0) ;
-				
+				System.out.println(2);
 				Event event = null;
 				try {
 					event = load.SerchEvent(eventid);
+					System.out.println(3);
 				} catch (BusinessException | DbException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				a.DelEventUi(event);
+				System.out.println(4);
+				try {
+					reload();
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 			}	
 		});
 		btnNewButton_3.addActionListener(new ActionListener()
@@ -370,22 +417,51 @@ public class MainUi {
 			{
 				ClearEventUi a=new ClearEventUi();
 				a.ClearEventUi();
+				try {
+					reload();
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 			}	
 		});
 		button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+
 				Fortest a=new Fortest();
 				try {
 					a.test();
+					try {
+						reload();
+					} catch (BaseException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 				} catch (BusinessException | DbException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}	
 		});
-		
+		button_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				try {
+					reload();
+				} catch (BaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}	
+		});
 	}
+	
 
+	
+	
 }
+
+
