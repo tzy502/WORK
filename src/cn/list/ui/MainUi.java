@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -57,7 +59,7 @@ public class MainUi {
 	Object tblData[][];
 	Object tblTitle[];
 	JButton button_1;
-	
+	Format format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	public  void reload() throws BaseException{
 		EventManage load =new EventManage();
 		try {
@@ -76,8 +78,8 @@ public class MainUi {
 			if(allEvent.get(j).isDel()==false&&allEvent.get(j).isComplete()==false){
 				tblData[i][0]=allEvent.get(j).getID();
 				tblData[i][1]=allEvent.get(j).getName();
-				tblData[i][2]=allEvent.get(j).getBeginTime();
-				tblData[i][3]=allEvent.get(j).getEndTime();
+				tblData[i][2]=format.format(allEvent.get(j).getBeginTime());
+				tblData[i][3]=format.format(allEvent.get(j).getEndTime());
 				tblData[i][4]=allEvent.get(j).getDescribe();
 				tblData[i][5]=allEvent.get(j).isHint();
 				tblData[i][6]=allEvent.get(j).getLevel();
@@ -159,7 +161,7 @@ public class MainUi {
 		gbc_btnNewButton_3.gridy = 5;
 		panel.add(btnNewButton_3, gbc_btnNewButton_3);
 		
-		button_1 = new JButton("\u5237\u65B0\u5B9E\u9A8C");
+		button_1 = new JButton("\u5237\u65B0");
 		GridBagConstraints gbc_button_1 = new GridBagConstraints();
 		gbc_button_1.insets = new Insets(0, 0, 5, 5);
 		gbc_button_1.gridx = 4;

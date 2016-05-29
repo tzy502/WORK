@@ -220,6 +220,9 @@ public class ModifyEventUi {
 				Event newevent =new Event();
 				String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
 				newevent.setName(nametext.getText());
+				if(newevent.getName().equals("")){
+					newevent.setName(null);
+				}
 				newevent.setBeginTime((Date)datepickbegintime.getValue());
 				newevent.setEndTime((Date)datepickendtime.getValue());
 				boolean hint;

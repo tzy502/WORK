@@ -1,7 +1,11 @@
 package cn.list.model;
 
 import java.sql.Date;
-
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
 public class Tip {
 	private int Totalnum;//数据总数
 	private int ID;//事件编号

@@ -64,7 +64,7 @@ public class NewEventUi {
 	
 	
 	public  void newEventui() {
-		frame = new JFrame();
+		frame = new JFrame("ÐÂ½¨");
 		frame.setBounds(100, 100, 400, 400);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -99,7 +99,7 @@ public class NewEventUi {
 		name.setBounds(10, 8, 54, 15);
 		Center.add(name);
 		
-		nametext = new JTextField();
+		nametext = new JTextField("");
 		nametext.setBounds(74, 8, 284, 21);
 		Center.add(nametext);
 		nametext.setColumns(10);
@@ -211,6 +211,12 @@ public class NewEventUi {
 			{
 				String DefaultFormat = "yyyy-MM-dd HH:mm:ss";
 				String name =nametext.getText();
+				
+				if(name.equals("")){
+					name=null;
+				}
+				
+
 				Date begin=(Date)datepickbegintime.getValue();
 				Date end=(Date)datepickendtime.getValue();
 				if(name!=null&&begin!=null&&end!=null){
@@ -236,7 +242,6 @@ public class NewEventUi {
 				try {
 					a.CreateEvent(name, begin, end, hint, describe, level);
 					iscreat=true;
-					System.out.println(iscreat);
 					frame.setVisible(false);
 				} catch (BusinessException e1) {
 					// TODO Auto-generated catch block

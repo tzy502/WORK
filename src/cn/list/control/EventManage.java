@@ -54,7 +54,7 @@ public class EventManage implements IEvent {
 
 	@Override
 	public void AddEvent(Event event) throws DbException {
-		// TODO Auto-generated method stub
+		// 将数据添加到数据库中
 
 		Connection conn=null;
 		try {
@@ -109,6 +109,7 @@ public class EventManage implements IEvent {
 	}
 	@Override
 	public Event SerchEvent(int ID) throws BusinessException, DbException {
+		//查找数据
 		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
 		int hint;
@@ -178,7 +179,7 @@ public class EventManage implements IEvent {
 	}
 	@Override
 	public void DelEvent(Event event) throws BusinessException, DbException, SQLException {
-		// TODO Auto-generated method stub
+		// 对数据进行删除
 		EventManage a=new EventManage();
 		if(a.SerchEvent(event.getID())!=null){
 			Connection conn=null;
@@ -194,7 +195,23 @@ public class EventManage implements IEvent {
 
 	@Override
 	public void ModifyEvent(Event event,Event newevent)throws BusinessException, DbException, SQLException  {
-		// TODO Auto-generated method stub
+		// 修改数据
+		
+		if(newevent.getName()==null){
+			throw new BusinessException("必须写名字");
+		}
+		if(newevent.getBeginTime()==null){
+			throw new BusinessException("必须写起始时间");
+		}
+		if(newevent.getEndTime()==null){
+			throw new BusinessException("必须写结束时间");
+		}
+		if(newevent.getBeginTime().before(newevent.getEndTime())==false)
+		{
+			throw new BusinessException("结束必须在起始时间之前");
+		}
+		
+		
 		EventManage a=new EventManage();
 		if(a.SerchEvent(event.getID())!=null){
 			Connection conn=null;
@@ -232,6 +249,7 @@ public class EventManage implements IEvent {
 
 	@Override
 	public List<Event> LoadEvent() throws BusinessException, DbException {
+		//遍历数据
 		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
 		int hint;
@@ -305,7 +323,7 @@ public class EventManage implements IEvent {
 	}
 
 	public void ClearEvent()throws BusinessException, DbException, SQLException {
-		
+		//清空数据
 		Connection conn=null;
 		conn=DBUtil.getConnection();
 		String sql="DELETE FROM [work].[dbo].[Event] ";

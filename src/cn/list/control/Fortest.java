@@ -5,7 +5,11 @@ import java.util.Date;
 import cn.list.ui.MainUi;
 import cn.list.util.BusinessException;
 import cn.list.util.DbException;
-
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
+//这个也不要复制下去！！！！！！！！！！！！！
 public class Fortest {
 	public static void main(String[] args) throws BusinessException, DbException {
 		Date begin=new Date();

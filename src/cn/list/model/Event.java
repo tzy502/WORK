@@ -1,5 +1,6 @@
 package cn.list.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 public class Event {
@@ -12,8 +13,8 @@ public class Event {
 	private boolean Complete;//完成标识符
 	private String Place;//地点描述
 	private String Character;//人物描述
-	private String describe;//事件描述
-	private int level;//优先级
+	private String Describe;//事件描述
+	private int Level;//优先级
 	private boolean del;//删除标识符
 	private boolean change;//修改标识符
 	
@@ -73,16 +74,16 @@ public class Event {
 		Character = character;
 	}
 	public String getDescribe() {
-		return describe;
+		return Describe;
 	}
 	public void setDescribe(String describe) {
-		this.describe = describe;
+		this.Describe = describe;
 	}
 	public int getLevel() {
-		return level;
+		return Level;
 	}
 	public void setLevel(int level) {
-		this.level = level;
+		this.Level = level;
 	}
 	public boolean isDel() {
 		return del;

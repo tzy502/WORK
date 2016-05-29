@@ -144,9 +144,24 @@ public class EventManageTest {
 		}
 
 	}
-
 	@Test
-	public void testClearEvent() throws SQLException {
+	public void testModifyEvent() throws SQLException {
+		event.setID(1);
+		event.setName("test");
+		Date begindate=new Date();
+		Date enddate=new Date();
+		enddate.setYear(2020);
+		event.setBeginTime(begindate);
+		event.setEndTime(enddate);
+		event.setDescribe("213");
+		Event newevent=new Event();
+		newevent.setID(1);
+		event.setName("test1");
+		event.setBeginTime(begindate);
+		enddate.setYear(2030);
+		event.setEndTime(enddate);
+		event.setDescribe("213");		
+		
 		try {
 			test.ClearEvent();
 		} catch (BusinessException e) {
@@ -155,7 +170,108 @@ public class EventManageTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+	@Test
+	public void testModifyEvent1() throws SQLException {
+		//ID找不到
+		event.setID(0);
+		event.setName("test");
+		Date begindate=new Date();
+		Date enddate=new Date();
+		enddate.setYear(2020);
+		event.setBeginTime(begindate);
+		event.setEndTime(enddate);
+		event.setDescribe("213");
+		Event newevent=new Event();
+		newevent.setID(1);
+		event.setName("test1");
+		event.setBeginTime(begindate);
+		enddate.setYear(2030);
+		event.setEndTime(enddate);
+		event.setDescribe("213");		
+		
+		try {
+			test.ClearEvent();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		} catch (DbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testModifyEvent2() throws SQLException {
+		//缺少名字
+		event.setID(1);
+		event.setName("test");
+		Date begindate=new Date();
+		Date enddate=new Date();
+		enddate.setYear(2020);
+		event.setBeginTime(begindate);
+		event.setEndTime(enddate);
+		event.setDescribe("213");
+		Event newevent=new Event();
+		newevent.setID(1);
+		event.setName("test1");
+		event.setBeginTime(begindate);
+		enddate.setYear(2030);
+		event.setEndTime(enddate);
+		event.setDescribe("213");		
+		
+		try {
+			test.ClearEvent();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		} catch (DbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testModifyEvent3() throws SQLException {
+		//起始时间和结束时间一样
+		event.setID(1);
+		event.setName("test");
+		Date begindate=new Date();
+		Date enddate=new Date();
+		enddate.setYear(2020);
+		event.setBeginTime(begindate);
+		event.setEndTime(enddate);
+		event.setDescribe("213");
+		Event newevent=new Event();
+		newevent.setID(1);
+		event.setName("test1");
+		event.setBeginTime(begindate);
+		enddate.setYear(2030);
+		event.setEndTime(begindate);
+		event.setDescribe("213");		
+		
+		try {
+			test.ClearEvent();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		} catch (DbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fail("Not yet implemented");
+	}
+	@Test
+	public void testClearEvent() throws SQLException {
+		
+			try {
+				test.ClearEvent();
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DbException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+
+
 
 }
