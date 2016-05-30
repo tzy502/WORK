@@ -17,18 +17,12 @@ public class EventManageTest {
 	Event event=new Event();
 	EventManage test=new EventManage();
 	@Test
-	public void testCreateEvent()  {
+	public void testCreateEvent() throws BusinessException, DbException  {
 		Date begindate=new Date();
 		Date enddate=new Date();
 		enddate.setYear(2020);
-		try {
+
 			test.CreateEvent("单元测试样例", begindate, enddate, true,"仅仅是测试", 1);
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		} catch (DbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 	@Test

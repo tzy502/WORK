@@ -15,10 +15,10 @@ public class Event {
 	private String Character;//人物描述
 	private String Describe;//事件描述
 	private int Level;//优先级
-	private boolean del;//删除标识符
-	private boolean change;//修改标识符
+	private boolean Del;//删除标识符
+	private boolean Change;//修改标识符
 	
-	public static boolean  flag=true;//运行标识符
+	public static boolean  Flag=true;//运行标识符
 	public int getTotalnum() {
 		return Totalnum;
 	}
@@ -86,16 +86,16 @@ public class Event {
 		this.Level = level;
 	}
 	public boolean isDel() {
-		return del;
+		return Del;
 	}
 	public void setDel(boolean del) {
-		this.del = del;
+		this.Del = del;
 	}
 	public boolean isChange() {
-		return change;
+		return Change;
 	}
 	public void setChange(boolean change) {
-		this.change = change;
+		this.Change = change;
 	}
 	
 }

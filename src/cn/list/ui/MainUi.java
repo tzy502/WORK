@@ -45,7 +45,7 @@ import cn.list.waste.ToDolistamain;
 
 import javax.swing.JTextPane;
 import javax.swing.JTable;
-public class MainUi {
+public  class MainUi {
 	
 	private JFrame frame;
 	public JTable table_1;
@@ -299,9 +299,9 @@ public class MainUi {
 
 		JMenuBar menu=new JMenuBar();
 		frame.setJMenuBar(menu);
-		JMenu m1=new JMenu("file");
-		JMenu m2=new JMenu("edit");
-		JMenu m3=new JMenu("help");
+		JMenu m1=new JMenu("²Ëµ¥");
+		JMenu m2=new JMenu("±à¼­");
+		JMenu m3=new JMenu("°ïÖú");
 		menu.add(m1);
 		menu.add(m2);
 		menu.add(m3);
@@ -334,7 +334,12 @@ public class MainUi {
 				NewEventUi a=new NewEventUi();
 				a.newEventui();
 				try {
-					reload();
+					if(a.iscreattrue()==true){
+						reload();
+						System.out.println(a.iscreattrue());
+					}
+						
+						
 				} catch (BaseException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();

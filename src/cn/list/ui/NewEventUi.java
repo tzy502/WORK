@@ -262,8 +262,9 @@ public class NewEventUi {
 			}	
 		});	
 
-		
-		
+	}
+	public boolean iscreattrue(){
+		return iscreat;
 	}
 }
 
