@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.util.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import cn.list.util.*;
 import cn.list.model.Event;
@@ -110,7 +107,6 @@ public class EventManage implements IEvent {
 	@Override
 	public Event SerchEvent(int ID) throws BusinessException, DbException {
 		//≤È’“ ˝æ›
-		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
 		int hint;
 		int complete;

@@ -1,4 +1,4 @@
-package cn.list.waste;
+/*package cn.list.waste;
 
 import java.util.Vector;
 
@@ -8,9 +8,9 @@ import cn.list.util.BusinessException;
 import cn.list.util.DbException;
 
 public class wastetable {
-	/**
+
 	 * @wbp.parser.entryPoint
-	 */
+	 
 	public void load(){
 		columnNames.add("ID");
 		columnNames.add( "\u59D3\u540D");
@@ -47,4 +47,4 @@ public class wastetable {
 		}
 		
 	}
-}
+}*/
