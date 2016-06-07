@@ -15,6 +15,7 @@ public class Fortest {
 		Date begin=new Date();
 		Date end=new Date();
 		end.setYear(2020);
+		
 		EventManage test=new EventManage();
 		for(int i=1;i<10;i++)
 			test.CreateEvent("测试样例"+i, begin, end, true, "这只是一个测试", 2);
@@ -25,8 +26,12 @@ public class Fortest {
 		Date end=new Date();
 		end.setYear(2020);
 		EventManage test=new EventManage();
-		for(int i=1;i<320;i++)
+		int j;
+		int i;
+		for(i=1;i<60;i++)
 			test.CreateEvent("测试样例"+i, begin, end, true, "这只是一个测试", 2);
+			j=12-i;
+			end.setHours(j);
 		
 }
 }

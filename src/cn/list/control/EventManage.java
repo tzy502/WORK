@@ -10,10 +10,13 @@ import java.util.List;
 import cn.list.util.*;
 import cn.list.model.Event;
 import cn.list.workinterface.IEvent;
-
 public class EventManage implements IEvent {
+	public boolean isadd=true;
+	
+	
 	
 	@Override
+
 	public void CreateEvent(String Name,Date BeginTime,Date EndTime,boolean Hint,String describe,int level) throws BusinessException, DbException {
 		// 创建新事件
 
@@ -326,8 +329,15 @@ public class EventManage implements IEvent {
 		java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
 		pst.execute();
 		pst.close();	
-	
-
-			
+	} 
+	public void CompleteEvent(Event event)throws BusinessException, DbException, SQLException {
+		//数据完成
+		Connection conn=null;
+		conn=DBUtil.getConnection();
+		String sql="UPDATE [work].[dbo].[Event]   SET Complete=1 WHERE id=? ";
+		java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
+		pst.setInt(1, event.getID());
+		pst.execute();
+		pst.close();	
 	} 
 }
