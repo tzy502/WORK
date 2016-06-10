@@ -129,7 +129,7 @@ public class EventManageTest {
 	@Test
 	public void testLoadEvent() {
 		try {
-			test.LoadEvent();
+			test.LoadEventOrderbyID();
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		} catch (DbException e) {

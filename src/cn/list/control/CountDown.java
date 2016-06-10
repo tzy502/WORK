@@ -1,5 +1,6 @@
 package cn.list.control;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class CountDown implements Runnable {
 	public long time=1;
 	Event event;
 	Event newevent;
+	Event HintEvent;
 	EventManage eventmanage =new EventManage();
 	public CountDown(){
 
@@ -29,36 +31,23 @@ public class CountDown implements Runnable {
 		int i=0;
 		int j=0;
 		while(true){
-			List<Event> allEvent=null;
-			while(eventmanage.isadd==false){
-				//锁
-			}
+			HintEvent=null;
 			try {
-				allEvent=eventmanage.LoadEvent();
+				HintEvent=eventmanage.SerchHintEvent();
 			} catch (BusinessException | DbException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			for(i=0;i<=allEvent.size();i++){
-				if(allEvent.get(i).isComplete()==false&&allEvent.get(i).isDel()==false&&allEvent.get(i).isHint()==true)
-					break;
-				System.out.println(i);
+			while(HintEvent==null){
+				//锁线程暂停5秒
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-//			if(i>allEvent.size()){
-//				break;
-//			}
-				
-			for(j=0+1;j<=allEvent.size();j++){
-				if(allEvent.get(j).isComplete()==false&&allEvent.get(j).isDel()==false&&allEvent.get(j).isHint()==true)
-					break;
-				System.out.println(j);
-			}
-//			if(j>allEvent.size()){
-//				break;
-//			}
-//				
-			long end=allEvent.get(i).getEndTime().getTime();
+			long end=HintEvent.getEndTime().getTime();
 			Date date=new Date();
 			long now=date.getTime();
 			time=(end-now)/1000;
@@ -66,9 +55,24 @@ public class CountDown implements Runnable {
 			while (true)
 			{
 				if(time<=0){
+					try {
+						eventmanage.CompleteEvent(HintEvent);
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DbException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					//缺少个调用结束的界面
+					
 					break;
 				}
-				System.out.println(allEvent.get(i).getName()+"还剩： " + time + " 秒");
+				System.out.println(HintEvent.getName()+"还剩： " + time + " 秒");
 				time--;
 				try
 				{

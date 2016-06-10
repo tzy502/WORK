@@ -14,7 +14,7 @@ public class SortEvent {
 	Event event=new Event();
 	EventManage eventmanage =new EventManage();
 	public List<Event>  SortEventEnd() throws BusinessException, DbException{
-		TotalEvent=eventmanage.LoadEvent();
+		TotalEvent=eventmanage.LoadEventOrderbyID();
 		int i;
 		for(i=TotalEvent.size()-1;i>0;--i){
 			for(int j=0;j<i;++j){

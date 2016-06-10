@@ -176,6 +176,75 @@ public class EventManage implements IEvent {
 				}
 		}
 	}
+	public Event SerchHintEvent()throws BusinessException, DbException{
+		Connection conn=null;
+		int hint;
+		int complete;
+		int del;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
+						+"FROM [work].[dbo].[Event]"+
+						"where [Complete]=0 and [del]=0 and  [Hint]=1"
+						+ "Order by EndTime";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+
+			java.sql.ResultSet rs=pst.executeQuery();
+			if(!rs.next()) 
+				throw new BusinessException("不存在");	
+			Event event=new Event();	
+			event.setID(rs.getInt(1));
+			event.setName(rs.getString(2));
+			Timestamp beginendtime=rs.getTimestamp(3);
+			java.util.Date begin=new java.util.Date(beginendtime.getTime());
+			event.setBeginTime(begin);
+			Timestamp sqlendtime=rs.getTimestamp(4);
+			java.util.Date end=new java.util.Date(sqlendtime.getTime());
+			event.setEndTime(end);
+			hint=rs.getInt(5);
+			if (hint==0){
+				event.setHint(false);
+			}
+			else{
+				event.setHint(true);
+			}
+			complete=rs.getInt(6);
+			if (complete==0){
+				event.setComplete(false);
+			}
+			else{
+				event.setComplete(true);
+			}
+			event.setDescribe(rs.getString(7));
+			event.setLevel(rs.getInt(8));
+			del=rs.getInt(9);
+			if (del==0){
+				event.setComplete(false);
+			}
+			else{
+				event.setComplete(true);
+			}
+		
+			rs.close();
+			pst.execute();
+			pst.close();
+			return event;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
 	@Override
 	public void DelEvent(Event event) throws BusinessException, DbException, SQLException {
 		// 对数据进行删除
@@ -247,7 +316,7 @@ public class EventManage implements IEvent {
 
 
 	@Override
-	public List<Event> LoadEvent() throws BusinessException, DbException {
+	public List<Event> LoadEventOrderbyID() throws BusinessException, DbException {
 		//遍历数据
 		List<Event> TotalEvent=new ArrayList<Event>();
 		Connection conn=null;
@@ -321,6 +390,156 @@ public class EventManage implements IEvent {
 		}
 	}
 
+	public List<Event> LoadEventOrderbyEndtime() throws BusinessException, DbException{
+		//遍历数据 已结束时间为标准
+		List<Event> TotalEvent=new ArrayList<Event>();
+		Connection conn=null;
+		int hint;
+		int complete;
+		int del;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
+						+"FROM [work].[dbo].[Event]"
+						+ "order by [EndTime]";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+//			if(!rs.next()) 
+//				return null;			
+			while(rs.next()){
+				Event event=new Event();	
+				event.setID(rs.getInt(1));
+				event.setName(rs.getString(2));
+				Timestamp beginendtime=rs.getTimestamp(3);
+				java.util.Date begin=new java.util.Date(beginendtime.getTime());
+				event.setBeginTime(begin);
+				Timestamp sqlendtime=rs.getTimestamp(4);
+				java.util.Date end=new java.util.Date(sqlendtime.getTime());
+				event.setEndTime(end);
+				hint=rs.getInt(5);
+				if (hint==0){
+					event.setHint(false);
+				}
+				else{
+					event.setHint(true);
+				}
+				complete=rs.getInt(6);
+				if (complete==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				event.setDescribe(rs.getString(7));
+				event.setLevel(rs.getInt(8));
+				del=rs.getInt(9);
+				if (del==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				TotalEvent.add(event);
+			
+			}
+			
+			rs.close();
+			pst.execute();
+			pst.close();	
+
+				
+			return TotalEvent;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	public List<Event> LoadEventOrderbyBegintime() throws BusinessException, DbException{
+		//遍历数据 以起始时间为标准
+		List<Event> TotalEvent=new ArrayList<Event>();
+		Connection conn=null;
+		int hint;
+		int complete;
+		int del;
+		try {
+			conn=DBUtil.getConnection();
+			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
+						+"FROM [work].[dbo].[Event]"
+						+ "order by BeginTime";
+			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+			java.sql.ResultSet rs=pst.executeQuery();
+//			if(!rs.next()) 
+//				return null;			
+			while(rs.next()){
+				Event event=new Event();	
+				event.setID(rs.getInt(1));
+				event.setName(rs.getString(2));
+				Timestamp beginendtime=rs.getTimestamp(3);
+				java.util.Date begin=new java.util.Date(beginendtime.getTime());
+				event.setBeginTime(begin);
+				Timestamp sqlendtime=rs.getTimestamp(4);
+				java.util.Date end=new java.util.Date(sqlendtime.getTime());
+				event.setEndTime(end);
+				hint=rs.getInt(5);
+				if (hint==0){
+					event.setHint(false);
+				}
+				else{
+					event.setHint(true);
+				}
+				complete=rs.getInt(6);
+				if (complete==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				event.setDescribe(rs.getString(7));
+				event.setLevel(rs.getInt(8));
+				del=rs.getInt(9);
+				if (del==0){
+					event.setComplete(false);
+				}
+				else{
+					event.setComplete(true);
+				}
+				TotalEvent.add(event);
+			
+			}
+			
+			rs.close();
+			pst.execute();
+			pst.close();	
+
+				
+			return TotalEvent;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DbException(e);
+		}
+		finally{
+			if(conn!=null)
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	
 	public void ClearEvent()throws BusinessException, DbException, SQLException {
 		//清空数据
 		Connection conn=null;
@@ -340,4 +559,8 @@ public class EventManage implements IEvent {
 		pst.execute();
 		pst.close();	
 	} 
+
+	
+	
+	
 }

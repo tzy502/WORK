@@ -63,7 +63,7 @@ public  class MainUi {
 	public  void reload() throws BaseException{
 		EventManage load =new EventManage();
 		try {
-			allEvent=load.LoadEvent();
+			allEvent=load.LoadEventOrderbyID();
 		} catch (BusinessException | DbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
