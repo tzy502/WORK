@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import cn.list.model.Event;
+import cn.list.ui.FinishHint;
 import cn.list.util.BusinessException;
 import cn.list.util.DbException;
 
 public class CountDown implements Runnable {
 	public long time=1;
-	Event event;
-	Event newevent;
+	Event Nextevent;
 	Event HintEvent;
 	EventManage eventmanage =new EventManage();
 	public CountDown(){
@@ -69,6 +69,26 @@ public class CountDown implements Runnable {
 					}
 					
 					//缺少个调用结束的界面
+					
+					try {
+						Nextevent=eventmanage.SerchHintEvent();
+					} catch (BusinessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DbException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(Nextevent==null){
+						break;
+					}
+					FinishHint finishhint =new FinishHint();
+					finishhint.FinishHintUi(Nextevent);
+					
+					
+					
+					
+					
 					
 					break;
 				}

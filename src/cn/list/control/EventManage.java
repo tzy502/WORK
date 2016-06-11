@@ -9,6 +9,7 @@ import java.util.List;
 
 import cn.list.util.*;
 import cn.list.model.Event;
+import cn.list.ui.ErrorHint;
 import cn.list.workinterface.IEvent;
 public class EventManage implements IEvent {
 	public boolean isadd=true;
@@ -31,6 +32,8 @@ public class EventManage implements IEvent {
 		}
 		if(BeginTime.before(EndTime)==false)
 		{
+			ErrorHint errorhint =new ErrorHint();
+			errorhint.ErrorHintUI("结束必须在起始时间之前");
 			throw new BusinessException("结束必须在起始时间之前");
 		}
 		
@@ -183,7 +186,7 @@ public class EventManage implements IEvent {
 		int del;
 		try {
 			conn=DBUtil.getConnection();
-			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
+			String sql="SELECT top 1 [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
 						+"FROM [work].[dbo].[Event]"+
 						"where [Complete]=0 and [del]=0 and  [Hint]=1"
 						+ "Order by EndTime";
