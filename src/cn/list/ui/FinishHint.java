@@ -13,9 +13,9 @@ import cn.list.model.Event;
 public class FinishHint {
 	private JFrame frame;
 	public void FinishHintUi(Event event) {
-		frame = new JFrame();
+		frame = new JFrame("Íê³É");
 		frame.setBounds(100, 100, 310, 195);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("\u4EFB\u52A1\u5B8C\u6210\uFF01");

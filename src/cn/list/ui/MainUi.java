@@ -75,7 +75,7 @@ public  class MainUi {
 			tblData =new Object[allEvent.size()][7];
 		int i=0;
 		for(int j=0;j<allEvent.size();j++){
-			if(allEvent.get(j).isDel()==false&&allEvent.get(j).isComplete()==false){
+			if(allEvent.get(j).isDel()==false||allEvent.get(j).isComplete()==false){
 				tblData[i][0]=allEvent.get(j).getID();
 				tblData[i][1]=allEvent.get(j).getName();
 				tblData[i][2]=format.format(allEvent.get(j).getBeginTime());
@@ -115,7 +115,7 @@ public  class MainUi {
 	}
 	
 	public void initialize() {
-		frame = new JFrame("timetable");
+		frame = new JFrame("时间管理");
 		frame.setBounds(200, 200, 450, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -182,7 +182,7 @@ public  class MainUi {
 		gbc_button.insets = new Insets(0, 0, 5, 5);
 		gbc_button.gridx = 4;
 		gbc_button.gridy = 7;
-		panel.add(button, gbc_button);
+		//panel.add(button, gbc_button);
 		
 		JPanel panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
@@ -277,7 +277,7 @@ public  class MainUi {
 		
 		JScrollPane scrollPane = new JScrollPane(table_1);
 		scrollPane.setBackground(Color.white);
-		tp.addTab("按优先级显示", null, scrollPane, null);
+		tp.addTab("起始时间排序", null, scrollPane, null);
 		
 		tp.addTab("p1", contentPene1);
 		contentPene1.setLayout(new BorderLayout(0, 0));
@@ -286,43 +286,53 @@ public  class MainUi {
 		txtpnAsdfasfd.setText("asdfasfd");
 		contentPene1.add(txtpnAsdfasfd, BorderLayout.NORTH);
 		tp.setEnabledAt(0,true);
-		tp.setTitleAt(1," 按日显示  ");
+		tp.setTitleAt(1,"结束时间排序");
 
 //		tp.setPreferredSize(new Dimension(100,200));
 		tp.setTabPlacement(JTabbedPane.TOP);
 		tp.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		tp.addTab("按星期显示", null, scrollPane_1, null);
+		tp.addTab("优先级排序", null, scrollPane_1, null);
 		
 
 
 		JMenuBar menu=new JMenuBar();
 		frame.setJMenuBar(menu);
-		JMenu m1=new JMenu("菜单");
-		JMenu m2=new JMenu("编辑");
+		JMenu m1=new JMenu("编辑");
+		JMenu m2=new JMenu("");
 		JMenu m3=new JMenu("帮助");
 		menu.add(m1);
-		menu.add(m2);
+		//menu.add(m2);
 		menu.add(m3);
-		JMenuItem mi1=new JMenuItem("new");
-		JMenuItem mi2=new JMenuItem("open");
-		JMenuItem mi3=new JMenuItem("close");
+		JMenuItem mi1=new JMenuItem("新建");
+		JMenuItem mi2=new JMenuItem("修改");
+		JMenuItem mi3=new JMenuItem("删除");
 		JMenuItem mi4=new JMenuItem("save");
 		JMenuItem mi5=new JMenuItem("save as");
-		JMenuItem mi6=new JMenuItem("quit");
+		JMenuItem mi6=new JMenuItem("退出");
+		JMenuItem mi7=new JMenuItem("帮助");
 		m1.add(mi1);
 		m1.add(mi2);
 		m1.add(mi3);	
-		m1.addSeparator();
-		m1.add(mi4);
-		m1.add(mi5);
+	//	m1.addSeparator();
+	//	m1.add(mi4);
+	//	m1.add(mi5);
 		m1.addSeparator();
 		m1.add(mi6);
+		m3.add(mi7);
 		mi1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				ToDolistamain b=new ToDolistamain();
-				b.todilist();
+				NewEventUi a=new NewEventUi();
+				a.newEventui();
+				try {
+					if(a.iscreattrue()==true){
+						reload();
+					}						
+				} catch (BaseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 			}
 		});
@@ -336,17 +346,11 @@ public  class MainUi {
 				try {
 					if(a.iscreattrue()==true){
 						reload();
-						System.out.println(a.iscreattrue());
-					}
-						
-						
+					}						
 				} catch (BaseException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-			    
-
-
 			}
 		});
 		btnNewButton_1.addActionListener(new ActionListener()

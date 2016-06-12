@@ -21,7 +21,7 @@ public class DelEventUi {
 	private JFrame frame;
 	
 	public void DelEventUi(final Event event) {
-		frame = new JFrame();
+		frame = new JFrame("É¾³ý");
 		frame.setBounds(100, 100, 300, 200);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);

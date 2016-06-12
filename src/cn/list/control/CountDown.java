@@ -30,68 +30,75 @@ public class CountDown implements Runnable {
 	public void run() {
 		int i=0;
 		int j=0;
+		long end;
 		while(true){
 			HintEvent=null;
 			try {
 				HintEvent=eventmanage.SerchHintEvent();
+
 			} catch (BusinessException | DbException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			while(HintEvent==null){
-				//锁线程暂停5秒
+				//锁线程暂停1秒
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(1000);
+					System.out.println("暂停");
+					try {
+						HintEvent=eventmanage.SerchHintEvent();
+
+					} catch (BusinessException | DbException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			long end=HintEvent.getEndTime().getTime();
+			
+			end=HintEvent.getEndTime().getTime();
 			Date date=new Date();
 			long now=date.getTime();
 			time=(end-now)/1000;
-			//倒计时
-			while (true)
-			{
-				if(time<=0){
-					try {
-						eventmanage.CompleteEvent(HintEvent);
-					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DbException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					//缺少个调用结束的界面
-					
-					try {
-						Nextevent=eventmanage.SerchHintEvent();
-					} catch (BusinessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DbException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if(Nextevent==null){
+			
+				while (time>=0)
+				{
+					//倒计时
+					if(time<=0){
+						try {
+							eventmanage.CompleteEvent(HintEvent);
+						} catch (BusinessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DbException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						//缺少个调用结束的界面
+						
+						try {
+							Nextevent=eventmanage.SerchHintEvent();
+						} catch (BusinessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DbException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(Nextevent==null){
+							break;
+						}
+						System.out.println(Nextevent.getID());
+						FinishHint finishhint =new FinishHint();
+						finishhint.FinishHintUi(Nextevent);
 						break;
 					}
-					FinishHint finishhint =new FinishHint();
-					finishhint.FinishHintUi(Nextevent);
-					
-					
-					
-					
-					
-					
-					break;
-				}
 				System.out.println(HintEvent.getName()+"还剩： " + time + " 秒");
 				time--;
 				try

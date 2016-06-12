@@ -5,7 +5,7 @@ public class Start {
 	public static void main(String[] args) throws InterruptedException {
 		CountDown cd=new CountDown();
 		Thread t = new Thread(cd);
-		//t.start();
+		t.start();
 		MainUi start = new MainUi(); 
 	//	start.initialize();
 		

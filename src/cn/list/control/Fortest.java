@@ -24,14 +24,17 @@ public class Fortest {
 	public static void test() throws BusinessException, DbException {
 		Date begin=new Date();
 		Date end=new Date();
-		end.setYear(2020);
+		end.setSeconds(begin.getSeconds()+10);
 		EventManage test=new EventManage();
 		int j;
 		int i;
-		for(i=1;i<60;i++)
+		for(i=1;i<10;i++){
+			end.setSeconds(begin.getSeconds()+i);
 			test.CreateEvent("测试样例"+i, begin, end, true, "这只是一个测试", 2);
-			j=12-i;
-			end.setHours(j);
+		}
+		
+			
+
 		
 }
 }

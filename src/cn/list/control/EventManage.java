@@ -32,8 +32,6 @@ public class EventManage implements IEvent {
 		}
 		if(BeginTime.before(EndTime)==false)
 		{
-			ErrorHint errorhint =new ErrorHint();
-			errorhint.ErrorHintUI("结束必须在起始时间之前");
 			throw new BusinessException("结束必须在起始时间之前");
 		}
 		
@@ -63,7 +61,7 @@ public class EventManage implements IEvent {
 		try {
 			conn=DBUtil.getConnection();
 			int id=0;
-			String sql="select count(*) from [Event]";
+			String sql="select max(ID) from [Event]";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 			while(rs.next())
@@ -126,7 +124,7 @@ public class EventManage implements IEvent {
 			pst.setInt(1,ID);
 			java.sql.ResultSet rs=pst.executeQuery();
 			if(!rs.next()) 
-				throw new BusinessException("不存在");	
+				return null;	
 			Event event=new Event();	
 			event.setID(ID);
 			event.setName(rs.getString(2));
@@ -194,7 +192,7 @@ public class EventManage implements IEvent {
 
 			java.sql.ResultSet rs=pst.executeQuery();
 			if(!rs.next()) 
-				throw new BusinessException("不存在");	
+				return null;
 			Event event=new Event();	
 			event.setID(rs.getInt(1));
 			event.setName(rs.getString(2));
@@ -329,7 +327,8 @@ public class EventManage implements IEvent {
 		try {
 			conn=DBUtil.getConnection();
 			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
-						+"FROM [work].[dbo].[Event]";
+						+"FROM [work].[dbo].[Event]"
+						+ "  WHERE  [Hint]=1 and [Complete]=0 and [del]=0";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 //			if(!rs.next()) 
@@ -404,7 +403,8 @@ public class EventManage implements IEvent {
 			conn=DBUtil.getConnection();
 			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
 						+"FROM [work].[dbo].[Event]"
-						+ "order by [EndTime]";
+						+ "  WHERE  [Hint]=1 and [Complete]=0 and [del]=0"
+						+ "order by [EndTime] DESC";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 //			if(!rs.next()) 
@@ -478,7 +478,8 @@ public class EventManage implements IEvent {
 			conn=DBUtil.getConnection();
 			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
 						+"FROM [work].[dbo].[Event]"
-						+ "order by BeginTime";
+						+ "  WHERE  [Hint]=1 and [Complete]=0 and [del]=0"
+						+ "order by BeginTime DESC";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 //			if(!rs.next()) 
@@ -551,6 +552,11 @@ public class EventManage implements IEvent {
 		java.sql.PreparedStatement pst=conn.prepareStatement(sql);		
 		pst.execute();
 		pst.close();	
+		Date date=new Date();
+		Date date1=new Date();
+		date1.setHours(date.getHours()+1);
+		CreateEvent("填充数据",date,date1,false,"填充数据",4);
+		CompleteEvent(SerchEvent(1));
 	} 
 	public void CompleteEvent(Event event)throws BusinessException, DbException, SQLException {
 		//数据完成
