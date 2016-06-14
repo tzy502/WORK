@@ -91,11 +91,13 @@ public class CountDown implements Runnable {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						FinishHint finishhint =new FinishHint();
 						if(Nextevent==null){
+							finishhint.FinishHintUiNoNext();
 							break;
 						}
 						System.out.println(Nextevent.getID());
-						FinishHint finishhint =new FinishHint();
+						
 						finishhint.FinishHintUi(Nextevent);
 						break;
 					}

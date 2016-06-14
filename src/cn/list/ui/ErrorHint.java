@@ -1,5 +1,8 @@
 package cn.list.ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +26,13 @@ public class ErrorHint {
 		JButton btnNewButton = new JButton("\u786E\u5B9A");
 		btnNewButton.setBounds(47, 68, 93, 23);
 		frame.getContentPane().add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});
 		frame.setVisible(true);
 	}
 }

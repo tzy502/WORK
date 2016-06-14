@@ -1,6 +1,9 @@
 package cn.list.ui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import cn.list.control.EventManage;
 import cn.list.model.Event;
+import cn.list.util.BusinessException;
+import cn.list.util.DbException;
 
 public class FinishHint {
 	private JFrame frame;
@@ -50,6 +56,62 @@ public class FinishHint {
 		Begintime.setFont(new Font("宋体", Font.BOLD, 14));
 		Begintime.setBounds(122, 90, 162, 31);
 		frame.getContentPane().add(Begintime);
+		frame.setVisible(true);
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});
+
+	}
+	public void FinishHintUiNoNext() {
+		frame = new JFrame("完成!!!");
+		frame.setBounds(100, 100, 310, 195);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("\u4EFB\u52A1\u5B8C\u6210\uFF01");
+		lblNewLabel.setFont(new Font("宋体", Font.BOLD, 30));
+		lblNewLabel.setBounds(70, 10, 160, 49);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("接下来没有任务");
+		lblNewLabel_1.setFont(new Font("宋体", Font.BOLD, 18));
+		lblNewLabel_1.setBounds(10, 61, 148, 31);
+		frame.getContentPane().add(lblNewLabel_1);
+//		
+//		JLabel eventname = new JLabel(event.getName());
+//		eventname.setFont(new Font("宋体", Font.BOLD, 18));
+//		eventname.setBounds(168, 61, 127, 31);
+//		frame.getContentPane().add(eventname);
+//		
+		JButton btnNewButton = new JButton("\u786E\u5B9A");
+		btnNewButton.setBounds(95, 123, 93, 23);
+		frame.getContentPane().add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.setVisible(false);
+			}	
+		});
+		
+//		
+//		JLabel label = new JLabel("\u5F00\u59CB\u65F6\u95F4\u662F ");
+//		label.setFont(new Font("宋体", Font.BOLD, 18));
+//		label.setBounds(10, 88, 148, 31);
+//		frame.getContentPane().add(label);
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Date date=new Date();
+//		String sdate=sdf.format(event.getBeginTime());
+//		
+//		JLabel Begintime = new JLabel(sdate);
+//		Begintime.setFont(new Font("宋体", Font.BOLD, 14));
+//		Begintime.setBounds(122, 90, 162, 31);
+//		frame.getContentPane().add(Begintime);
 		frame.setVisible(true);
 	}
 }
