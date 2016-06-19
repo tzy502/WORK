@@ -49,6 +49,9 @@ public  class MainUi {
 	
 	private JFrame frame;
 	public JTable table_1;
+	public JTable tablebylevel;
+	public JTable table;
+	
 	//
 	Object tblEventData[][];
 	List<Event> allEvent=null;
@@ -262,8 +265,7 @@ public  class MainUi {
 		
 		
 		//表格
-		table_1=new JTable(tablmod);
-		
+		table_1=new JTable(tablmod);	
 		try {
 			this.reload();
 		} catch (BaseException e3) {
@@ -278,22 +280,22 @@ public  class MainUi {
 		JScrollPane scrollPane = new JScrollPane(table_1);
 		scrollPane.setBackground(Color.white);
 		tp.addTab("起始时间排序", null, scrollPane, null);
-		
-		tp.addTab("p1", contentPene1);
-		contentPene1.setLayout(new BorderLayout(0, 0));
-		
-		JTextPane txtpnAsdfasfd = new JTextPane();
-		txtpnAsdfasfd.setText("asdfasfd");
-		contentPene1.add(txtpnAsdfasfd, BorderLayout.NORTH);
-		tp.setEnabledAt(0,true);
-		tp.setTitleAt(1,"结束时间排序");
-
-//		tp.setPreferredSize(new Dimension(100,200));
-		tp.setTabPlacement(JTabbedPane.TOP);
-		tp.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		tp.addTab("优先级排序", null, scrollPane_1, null);
+//		
+//		tp.addTab("p1", contentPene1);
+//		contentPene1.setLayout(new BorderLayout(0, 0));
+//		
+//		JTextPane txtpnAsdfasfd = new JTextPane();
+//		txtpnAsdfasfd.setText("asdfasfd");
+//		contentPene1.add(txtpnAsdfasfd, BorderLayout.NORTH);
+//		tp.setEnabledAt(0,true);
+//		tp.setTitleAt(1,"结束时间排序");
+//
+////		tp.setPreferredSize(new Dimension(100,200));
+//		tp.setTabPlacement(JTabbedPane.TOP);
+//		tp.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+//		
+//		JScrollPane scrollPane_1 = new JScrollPane();
+//		tp.addTab("优先级排序", null, scrollPane_1, null);
 		
 
 
