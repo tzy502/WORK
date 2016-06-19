@@ -70,9 +70,7 @@ public class EventManage implements IEvent {
 			}
 			rs.close();
 			pst.close();
-			
-			
-			
+
 			 sql="INSERT INTO [work].[dbo].[Event] ([ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],"
 					+ "[describe],[level],[del],[change]) VALUES(?,?,?,?,?,?,?,?,?,?)";
 			pst=conn.prepareStatement(sql);
