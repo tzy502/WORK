@@ -24,8 +24,14 @@ public class EventManage implements IEvent {
 		if(Name==null){
 			throw new BusinessException("必须写名字");
 		}
+		if(Name.length()>=20){
+			throw new BusinessException("字符串必须小于20个字");
+		}
 		if(BeginTime==null){
 			throw new BusinessException("必须写起始时间");
+		}
+		if(BeginTime.getYear()<2000){
+			throw new BusinessException("起始时间必须在2000年以前");
 		}
 		if(EndTime==null){
 			throw new BusinessException("必须写结束时间");
