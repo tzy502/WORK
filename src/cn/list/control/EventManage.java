@@ -40,7 +40,9 @@ public class EventManage implements IEvent {
 		{
 			throw new BusinessException("结束必须在起始时间之前");
 		}
-		
+		if(describe.length()>=150){
+			throw new BusinessException("字符串必须小于150个字");
+		}
 		
 		Event event=new Event();
 		event.setName(Name);
@@ -332,7 +334,7 @@ public class EventManage implements IEvent {
 			conn=DBUtil.getConnection();
 			String sql="SELECT [ID],[Name],[BeginTime],[EndTime],[Hint],[Complete],[describe],[level],[del]"
 						+"FROM [work].[dbo].[Event]"
-						+ "  WHERE  [Hint]=1 and [Complete]=0 and [del]=0";
+						+ "  WHERE  [Complete]=0 and [del]=0";
 			java.sql.PreparedStatement pst=conn.prepareStatement(sql);
 			java.sql.ResultSet rs=pst.executeQuery();
 //			if(!rs.next()) 
