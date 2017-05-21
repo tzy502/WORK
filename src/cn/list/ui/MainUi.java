@@ -71,7 +71,7 @@ public  class MainUi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Object tblTitle[]={"ID","姓名","起始时间","结束时间","描述","是否提示","优先级"};
+		final Object  tblTitle[]={"ID","姓名","起始时间","结束时间","描述","是否提示","优先级"};
 		if(allEvent.size()<=15)
 			tblData =new Object[16][7];
 		else
@@ -266,6 +266,7 @@ public  class MainUi {
 		
 		//表格
 		table_1=new JTable(tablmod);	
+		table_1.setEnabled(false);
 		try {
 			this.reload();
 		} catch (BaseException e3) {

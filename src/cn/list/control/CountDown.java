@@ -47,7 +47,6 @@ public class CountDown implements Runnable {
 					System.out.println("ÔÝÍ£");
 					try {
 						HintEvent=eventmanage.SerchHintEvent();
-
 					} catch (BusinessException | DbException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
