@@ -4,8 +4,8 @@
 <h2>要求</h2>
 sql server
 <h2>TO-DO</h2>
-单纯 JDBC连接改为hibernate
-数据库 改为mysql
-修复 bug
-最小化 
-（脑洞）舍弃数据库改为存储TXT（利弊未考虑）
+单纯 JDBC连接改为hibernate<br>
+数据库 改为mysql<br>
+修复 bug<br>
+最小化 <br>
+（脑洞）舍弃数据库改为存储TXT（利弊未考虑）<br>
